@@ -1,0 +1,138 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<section class="vh-100 bg-image gradient-custom-2">
+
+
+    <div *ngIf="isError" class="alert alert-danger custom-alert">
+
+        <strong>{{errorMsg}}</strong>
+    </div>
+    <div *ngIf="isSuccess" class="alert alert-success custom-alert ">
+
+        <strong>{{successMsg}}</strong>
+    </div>
+    <div class="mask d-flex align-items-center h-100">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-10 col-xl-8">
+                    <div class="card" style="border-radius: 15px; background-color: #ffffff;">
+                        <div class="text-center">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                                style="width: 150px; height: 100px;" alt="logo" />
+                            <h3>DeepSpend : A DeepTech Product</h3>
+                        </div>
+                        <div class="card-body p-1">
+
+                            <h5 class="text-uppercase text-center m2">Create an account</h5>
+
+                            <form id="registrationForm" [formGroup]="useForm">
+                                <div *ngIf="isSpinnerOn" class="overlay" id="loading">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border"
+                                            style="width: 3.5rem; height: 3.5rem; color: #245aa0;" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <div data-mdb-input-init class="form-outline form-floating flex-grow-1 mx-2">
+                                        <input type="text" formControlName="firstName"
+                                            class="form-control form-control-lg border-2" placeholder="Enter first name"
+                                            [ngClass]="{
+                                                'border-danger': useForm.controls['firstName'].touched && useForm.controls['firstName'].invalid
+                                            }" />
+                                        <label class="form-label" for="firstName">First Name<span
+                                                class="required">&#42;</span></label>
+                                    </div>
+
+                                    <div data-mdb-input-init class="form-outline form-floating flex-grow-1 mx-2">
+                                        <input type="text" formControlName="lastName"
+                                            class="form-control form-control-lg border-2"
+                                            placeholder="Enter last name" />
+                                        <label class="form-label" for="lastName">Last Name</label>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div data-mdb-input-init class="form-outline form-floating m-2 my-3">
+                                    <input type="email" formControlName="username"
+                                        class="form-control form-control-lg border-2" placeholder="Enter email "
+                                        [ngClass]="{
+                                            'border-danger': useForm.controls['username'].touched && useForm.controls['username'].invalid}" />
+                                    <label class="form-label" for="username">Your Email<span
+                                            class="required">&#42;</span></label>
+                                    @if (useForm.controls['username'].touched) {
+
+                                    <div class="text-danger">
+
+                                        @if(useForm.controls['username'].errors?.['username']){
+                                        <span>Invalid Email!!!</span>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+
+
+                                <div class="d-flex gap-2 my-2">
+                                    <div data-mdb-input-init class="form-outline form-floating flex-grow-1 mx-2">
+
+                                        <input type="text" formControlName="phone"
+                                            class="form-control form-control-lg border-2"
+                                            placeholder="Enter your Phone No."
+                                            [ngClass]="{'border-danger': useForm.controls['phone'].touched && useForm.controls['phone'].invalid}" />
+                                        <label class="form-label" for="phone">Phone Number<span
+                                                class="required">&#42;</span></label>
+                                    </div>
+
+                                    <div data-mdb-input-init class="form-outline form-floating flex-grow-1 mx-2">
+                                        <input type="text" formControlName="zipCode"
+                                            class="form-control form-control-lg border-2"
+                                            placeholder="Enter your zipCode" />
+                                        <label class="form-label" for="zipCode">ZipCode</label>
+                                    </div>
+                                </div>
+
+                                <div data-mdb-input-init class="form-outline form-floating flex-grow-1 mx-2 my-3">
+
+                                    <input type="text" formControlName="profession"
+                                        class="form-control form-control-lg border-2"
+                                        placeholder="Enter your Profession" />
+                                    <label class="form-label" for="profession">Enter your Profession</label>
+                                </div>
+
+
+
+
+
+                                <div class="form-check d-flex  mb-1 mx-4">
+                                    <div><input class="form-check-input me-2 border-2" type="checkbox" id="isAgreeTOS"
+                                            formControlName="isAgreeTOS"
+                                            [ngClass]="{'border border-danger': useForm.controls['isAgreeTOS'].touched && useForm.controls['isAgreeTOS'].invalid}" />
+                                        <label class="form-check-label" for="isAgreeTOS">
+                                            I agree all statements in
+                                            <a href="#!" class="text-body"><u>Terms of service</u></a>
+                                        </label>
+                                    </div>
+
+                                    <p class="text-muted mx-5 px-5">Have already an account? <a routerLink="/login"
+                                            class="fw-bold text-body"><u>Login here</u></a></p>
+                                </div>
+
+
+                                <div class="d-grid mx-2 mb-2">
+                                    <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                        class="btn btn-primary btn-block btn-lg  text-body" (click)=registerUser()
+                                        [disabled]="isFormValid()"><span style="color: white;">Register</span></button>
+                                </div>
+
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
