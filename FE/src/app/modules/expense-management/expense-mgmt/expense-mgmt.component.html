@@ -1,0 +1,167 @@
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Section (Form) -->
+        <div class="col-md-3 mt-2">
+            <form [formGroup]="useForm" (ngSubmit)="onSubmit()" class="form-section card p-3 card-border"
+                style="background-color:#f8f9fa;">
+
+                <h5 class="mb-3" style="text-align: center; margin-top: 10px;">
+                    {{ isEditMode ? 'Update Expense' : 'Add Expense' }}
+                </h5>
+
+                <!-- Category -->
+                <div class="mb-3">
+                    <label for="sel2" class="form-label">Select Category:</label>
+                    <select class="form-select" id="sel2" formControlName="category">
+                        <option value="" disabled selected>Choose a category</option>
+                        <option value="FOOD">Food</option>
+                        <option value="HEALTH">Health</option>
+                        <option value="TRAVEL">Travel</option>
+                        <option value="EDUCATION">Education</option>
+                        <option value="GIFT">Gift</option>
+                        <option value="BILLS">Bills</option>
+                        <option value="OTHERS">Others</option>
+                    </select>
+
+                    <div *ngIf="useForm.get('category')?.invalid && useForm.get('category')?.touched"
+                        class="text-danger small">
+                        Category is required
+                    </div>
+                </div>
+
+
+                <!-- Amount -->
+                <div class="mb-3">
+                    <label class="form-label">Amount:</label>
+                    <div class="input-group">
+                        <span class="input-group-text">₹</span>
+                        <input type="number" class="form-control" placeholder="Enter amount" formControlName="amount">
+                    </div>
+                    <div *ngIf="useForm.get('amount')?.invalid && useForm.get('amount')?.touched"
+                        class="text-danger small">
+                        Amount is required
+                    </div>
+                </div>
+
+                <!-- Date Picker -->
+                <div class="mb-3">
+                    <label class="form-label">Date:</label>
+                    <input type="date" class="form-control" formControlName="expenseDate">
+                    <div *ngIf="useForm.get('expenseDate')?.invalid && useForm.get('expenseDate')?.touched"
+                        class="text-danger small">
+                        Date is required
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Description:</label>
+                    <textarea class="form-control" rows="4" id="comment" formControlName="description"
+                        placeholder="Enter description"></textarea>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-secondary" (click)="useForm.reset()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="useForm.invalid">
+                        {{ isEditMode ? 'Update' : 'Save' }}
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <div class="col-md-9 mt-2" style="padding-left: 10px; padding-right: 0px;">
+            <div class="card">
+                <p-toast />
+                <p-toolbar styleClass="p-1">
+                    <ng-template #start>
+                        <!-- <p-button label="New" icon="pi pi-plus" styleClass="mx-2" (onClick)="openNew()" /> -->
+                        <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined
+                            (onClick)="deleteSelectedExpenses()"
+                            [disabled]="!selectedExpenses || !selectedExpenses.length" />
+                    </ng-template>
+
+                    <ng-template #end>
+                        <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
+                            chooseLabel="Import" auto customUpload styleClass="mr-2 inline-block"
+                            [chooseButtonProps]="{ severity: 'secondary' }" />
+                        <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
+                    </ng-template>
+                </p-toolbar>
+
+                <p-table #dt [value]="expenses" [rows]="10" [columns]="cols" [paginator]="true"
+                    [(selection)]="selectedExpenses" [rowHover]="true" dataKey="id"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [showCurrentPageReport]="true">
+
+
+
+                    <!-- Table Header -->
+                    <ng-template #header>
+                        <tr>
+                            <th style="width: 3rem">
+                                <p-tableHeaderCheckbox />
+                            </th>
+                            <th pSortableColumn="expenseDate" style="min-width:16rem">
+                                Expense Date
+                                <p-sortIcon field="expenseDate" />
+                            </th>
+
+                            <th pSortableColumn="category" style="min-width: 8rem">
+                                Category
+                                <p-sortIcon field="category" />
+                            </th>
+                            <th pSortableColumn="amount" style="min-width:10rem">
+                                Amount
+                                <p-sortIcon field="amount" />
+                            </th>
+                            <th pSortableColumn="description" style="min-width: 12rem">
+                                Description
+                                <p-sortIcon field="description" />
+                            </th>
+                            <th style="min-width: 12rem; text-align: center;">
+                                Actions
+                            </th>
+                        </tr>
+                    </ng-template>
+
+                    <!-- Table Body -->
+                    <ng-template #body let-expense>
+                        <tr>
+                            <td style="width: 3rem">
+                                <p-tableCheckbox [value]="expense" />
+                            </td>
+                            <td style="min-width: 12rem">{{ expense.expenseDate }}</td>
+                            <td style="min-width: 16rem">{{ expense.category }}</td>
+                            <td style="min-width: 16rem">{{ expense.amount }}</td>
+                            <td style="min-width: 16rem">{{ expense.description }}</td>
+                            <td>
+                                <p-button icon="pi pi-pencil" styleClass="mx-4" [rounded]="true" [text]="true"
+                                    (click)="editExpense(expense)" />
+                                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                                    [text]="true" (click)="deleteExpense(expense)" />
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <!-- Summary -->
+                    <ng-template #summary>
+                        <div class="flex items-center justify-between">
+                            In total there are {{ expenses ? expenses.length : 0 }} users.
+                        </div>
+                    </ng-template>
+
+                </p-table>
+
+
+
+
+
+                <p-confirmDialog [style]="{ width: '450px' }" />
+            </div>
+        </div>
+    </div>
+</div>

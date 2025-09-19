@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+.logo-width {
+    width: 150px;
+}
+
+.required {
+    color: rgb(255, 0, 0);
+}
+
+.center-div {
+
+    display: flex;
+    justify-content: center;
+    /* horizontal */
+    align-items: center;
+    /* vertical */
+    height: 100vh;
+    /* full viewport height */
+}
+
+.max-width {
+    width: 100%;
+}
+
+.text-right {
+    text-align: right;
+}
+
+#togglePassword {
+    position: absolute;
+    top: 42px;
+    right: 10px;
+    cursor: pointer;
+}

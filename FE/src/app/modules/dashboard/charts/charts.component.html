@@ -1,0 +1,20 @@
+<app-topbar></app-topbar>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Pie Chart -->
+        <div class="col-12 col-md-6 p-5 d-flex justify-content-center align-items-center">
+            <div class="w-100" style="max-width: 475px;">
+                <p-chart type="pie" [data]="pieData" [options]="pieOptions"
+                    style="width: 100%; height: auto;"></p-chart>
+            </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="col-12 col-md-6 p-4 d-flex justify-content-center align-items-center">
+            <div class="w-100" style="max-width: 600px; height: 500px;">
+                <p-chart type="bar" [data]="barData" [options]="barOptions"
+                    style="width: 100%; height: auto;"></p-chart>
+            </div>
+        </div>
+    </div>
+</div>

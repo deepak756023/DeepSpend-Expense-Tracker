@@ -1,0 +1,112 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<section class="vh-100 login-background">
+    <div *ngIf="isError" class="alert alert-danger custom-alert">
+        <strong>{{errorMsg}}</strong>
+    </div>
+    <div *ngIf="isSuccess" class="alert alert-success custom-alert">
+        <strong>{{successMsg}}</strong>
+    </div>
+    <div class="container-fluid h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-8 pt-3 center-div">
+                <div class="card rounded-3 text-black overflow-hidden ">
+                    <div class="row g-0 h-100">
+                        <!-- Left Gradient Side -->
+                        <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+                            <div class="text-white px-3 py-4 p-md-4 mx-md-3">
+                                <div style="display:flex; justify-content:center; align-items:center; height:15vh;">
+                                    <h3>DeepSpend : Expense Tracker</h3>
+                                </div>
+
+
+                                <h4 class="mb-4">We are DeepTech – more than just a tech company</h4>
+                                <p class="small mb-0">We provide cutting-edge IT solutions including AI innovations, web
+                                    development,
+                                    and mobile application creation to help
+                                    businesses thrive in the digital era.</p>
+                            </div>
+                        </div>
+
+                        <!-- Right Form Side -->
+                        <div class="col-lg-6 d-flex align-items-center">
+                            <div class="card-body p-2 p-md-2 w-100">
+
+                                <div class="text-center">
+                                    <img class="logo-width"
+                                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                                        alt="logo" />
+                                    <h4 class="mt-2 mb-4">Please login to your account</h4>
+                                </div>
+
+                                <form class="p-3" id="userForm" [formGroup]="useForm">
+
+                                    <div class="form-outline mb-2">
+                                        <label class="form-label" for="userMail">Username <span
+                                                class="required">&#42;</span></label>
+                                        <input type="email" formControlName="userMail" class="form-control"
+                                            placeholder="Enter email address" [ngClass]="{
+                                            'border-danger': useForm.controls['userMail'].touched && useForm.controls['userMail'].invalid
+                                        }" />
+
+                                        @if (useForm.controls['userMail'].touched) {
+
+                                        <div class="text-danger">
+                                            @if(useForm.controls['userMail'].errors?.['required']){
+                                            <Span> This is required</Span>
+                                            }
+                                            @if(useForm.controls['userMail'].errors?.['email']){
+                                            <span>Invalid Email!!!</span>
+                                            }
+                                        </div>
+                                        }
+                                    </div>
+
+                                    <div class="form-outline form-position">
+                                        <label class="form-label" for="pwd">Password <span
+                                                class="required">&#42;</span></label>
+                                        <input type="{{passwordType}}" formControlName="pwd" class="form-control"
+                                            placeholder="Password"
+                                            [ngClass]="{
+                                            'border-danger': useForm.controls['pwd'].touched && useForm.controls['pwd'].invalid}" />
+
+                                        @if (useForm.controls['pwd'].touched) {
+
+                                        <div class="text-danger">
+                                            @if(useForm.controls['pwd'].errors?.['required']){
+                                            <Span> This is required</Span>
+                                            }
+                                        </div>
+                                        }
+
+                                        <!-- Eye icon -->
+                                        <i [class]="visiblePassword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'"
+                                            id="togglePassword" (click)=isVisible()>
+                                        </i>
+
+                                        <div class="pt-2 text-right">
+                                            <a class="text-muted" routerLink="/forget-password">Forgot
+                                                password?</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center pt-3 mb-4 pb-1">
+                                        <button type="button" class="btn btn-primary px-4  max-width" (click)=login()
+                                            [disabled]="useForm.invalid">Log in</button>
+                                    </div>
+
+                                </form>
+
+                                <div class="d-flex align-items-center justify-content-center pb-3">
+                                    <p class="mb-0 me-2">Don't have an account?</p>
+                                    <button type="button" class="btn btn-link p-0" routerLink="/register">Create a
+                                        new account</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

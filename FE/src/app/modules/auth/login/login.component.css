@@ -1,0 +1,45 @@
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #fccb90;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+
+/* Rounded corners only on large screens */
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-left-radius: 0.3rem;
+        border-bottom-left-radius: 0.3rem;
+    }
+}
+
+/* Optional: remove section padding and margin to avoid scroll */
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.login-background {
+    background-color: #eee;
+}
+
+.form-position {
+    position: relative;
+}
+
+.custom-alert {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    /* Pushes it to the right side */
+    z-index: 1050;
+    /* Keeps it above other elements */
+    min-width: 250px;
+}

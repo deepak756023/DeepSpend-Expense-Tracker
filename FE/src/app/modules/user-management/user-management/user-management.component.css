@@ -1,0 +1,41 @@
+.card-center {
+    align-items: center;
+    display: grid;
+    place-content: center;
+}
+
+:host ::ng-deep .p-datatable-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+:host ::ng-deep .p-dialog .product-image {
+    width: 150px;
+    margin: 0 auto 1rem auto;
+    display: block;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+    padding: 0rem 0.5rem;
+    /* reduce vertical & horizontal padding */
+    font-size: 1rem;
+    /* optional: smaller font inside rows */
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+    padding: 0.4rem 0.5rem;
+    /* tighten header cells too */
+    font-size: 1rem;
+    /* optional: smaller header font */
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+    font-size: 1.1rem;
+    /* bigger text */
+    font-weight: 650;
+    /* make it bolder */
+    padding: 1.2rem 0.5rem;
+
+}
