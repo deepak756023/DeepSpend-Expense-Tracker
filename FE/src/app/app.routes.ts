@@ -8,6 +8,8 @@ import { TopbarComponent } from './modules/landing-page/topbar/topbar.component'
 import { UserManagementComponent } from './modules/user-management/user-management/user-management.component';
 import { ExpenseMgmtComponent } from './modules/expense-management/expense-mgmt/expense-mgmt.component';
 import { ChartsComponent } from './modules/dashboard/charts/charts.component';
+import { HomeComponent } from './modules/landing-page/home/home.component';
+import { FooterComponent } from './modules/landing-page/footer/footer.component';
 
 export const routes: Routes = [
     {
@@ -50,5 +52,13 @@ export const routes: Routes = [
     {
         path: 'charts',
         component: ChartsComponent
+    },
+    {
+        path: 'home',
+        component: HomeComponent
+    },
+    {
+        path: 'footer',
+        component: FooterComponent
     }
 ]

@@ -84,13 +84,13 @@ public class ExpenseService {
     }
 
 
-    public Map<Category, Double> getMonthlyExpensesChart(Long userId, int month) {
+    public Map<Category, Double> getMonthlyExpensesChart(Long userId, int month, int year) {
         // Suppose you have a method that fetches all expenses
         List<Expense> allExpenses = getAllUsersExpenses();
 
         return allExpenses.stream()
                 .filter(e -> e.getUser().getId().equals(userId))
-                .filter(e -> e.getExpenseDate().getMonthValue() == month)
+                .filter(e -> e.getExpenseDate().getMonthValue() == month && e.getExpenseDate().getYear() == year)
                 .collect(Collectors.groupingBy(
                         Expense::getCategory,
                         Collectors.summingDouble(Expense::getAmount)
@@ -98,14 +98,12 @@ public class ExpenseService {
 
     }
 
-    public Map<Integer, Double> getYearlyExpensesChart(Long userId) {
+    public Map<Integer, Double> getYearlyExpensesChart(Long userId, int year) {
         List<Expense> allExpenses = getAllUsersExpenses();
-
-        int currentYear = LocalDate.now().getYear();
 
         Map<Integer, Double> monthTotals = allExpenses.stream()
                 .filter(e -> e.getUser().getId().equals(userId))
-                .filter(e -> e.getExpenseDate().getYear() == currentYear)
+                .filter(e -> e.getExpenseDate().getYear() == year)
                 .collect(Collectors.groupingBy(
                         e -> e.getExpenseDate().getMonthValue(),
                         Collectors.summingDouble(Expense::getAmount)
