@@ -2,19 +2,38 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Pie Chart -->
-        <div class="col-12 col-md-6 p-5 d-flex justify-content-center align-items-center">
-            <div class="w-100" style="max-width: 475px;">
-                <p-chart type="pie" [data]="pieData" [options]="pieOptions"
-                    style="width: 100%; height: auto;"></p-chart>
-            </div>
-        </div>
+        <div class="col-12 col-md-6 p-5 position-relative">
 
+            <div class="position-absolute top-0 start-0 m-3">
+
+                <!-- Datepicker -->
+                <p-datepicker [(ngModel)]="date1" view="month" dateFormat="mm/yy"
+                    placeholder="{{today.getMonth() + 1}}/{{today.getFullYear()}}" (onSelect)="onMonthYearChange()">
+                </p-datepicker>
+
+            </div>
+
+            <div class="w-100  justify-content-center align-items-center"
+                style="max-width: 550px; height: 500px; margin-top: 50px;">
+                <p-chart type="pie" [data]="pieData" [options]="pieOptions" style="width: 100%; height: 100%; ">
+                </p-chart>
+            </div>
+
+        </div>
         <!-- Bar Chart -->
-        <div class="col-12 col-md-6 p-4 d-flex justify-content-center align-items-center">
-            <div class="w-100" style="max-width: 600px; height: 500px;">
+        <div class="col-12 col-md-6 p-4 position-relative">
+            <div class="position-absolute top-0 end-0 m-3">
+                <p-datepicker [(ngModel)]="date2" view="year" dateFormat="yy" placeholder="{{today.getFullYear()}}"
+                    (onSelect)="onYearChange()"></p-datepicker>
+            </div>
+
+            <div class="w-100 d-flex justify-content-center align-items-center"
+                style="max-width: 600px; height: 500px; margin-top: 50px;">
                 <p-chart type="bar" [data]="barData" [options]="barOptions"
                     style="width: 100%; height: auto;"></p-chart>
             </div>
         </div>
+
     </div>
 </div>
+<app-footer></app-footer>

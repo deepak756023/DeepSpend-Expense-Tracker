@@ -15,15 +15,15 @@ export class ChartService {
 
   private baseUrl = 'http://localhost:8080/user/api/expenses';
   constructor(private http: HttpClient) { }
-  getMonthlyExpensesChart(userId: number, month: number): Observable<ApiResponse<{ [key: string]: number }>> {
+  getMonthlyExpensesChart(userId: number, month: number, year: number): Observable<ApiResponse<{ [key: string]: number }>> {
     return this.http.get<ApiResponse<{ [key: string]: number }>>(
-      `${this.baseUrl}/monthly-expenses-chart?userId=${userId}&month=${month}`
+      `${this.baseUrl}/monthly-expenses-chart?userId=${userId}&month=${month}&year=${year}`
     );
   }
 
-  getYearlyExpensesChart(userId: number): Observable<ApiResponse<{ [key: string]: number }>> {
+  getYearlyExpensesChart(userId: number, year: number): Observable<ApiResponse<{ [key: string]: number }>> {
     return this.http.get<ApiResponse<{ [key: string]: number }>>(
-      `${this.baseUrl}/monthwise-expenses?userId=${userId}`
+      `${this.baseUrl}/monthwise-expenses?userId=${userId}&year=${year}`
     );
   }
 

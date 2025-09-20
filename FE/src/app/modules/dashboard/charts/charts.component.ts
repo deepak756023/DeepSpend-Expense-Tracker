@@ -5,10 +5,11 @@ import { FluidModule } from 'primeng/fluid';
 import { Subscription } from 'rxjs';
 import { ChartService } from '../chart.service';
 import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
+import { FooterComponent } from "../../landing-page/footer/footer.component";
 
 @Component({
   selector: 'app-charts',
-  imports: [NgImportsModule, CommonModule, FluidModule, TopbarComponent],
+  imports: [NgImportsModule, CommonModule, FluidModule, TopbarComponent, FooterComponent],
   templateUrl: './charts.component.html',
   styleUrl: './charts.component.css'
 })
@@ -25,17 +26,25 @@ export class ChartsComponent {
 
   private allMonths = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
-  constructor(private chartService: ChartService) {
-    this.chartService = chartService;
+  date1: Date | undefined;
+  date2: Date | undefined;
+  today = new Date();
 
-  }
+  constructor(private chartService: ChartService) { }
 
   ngOnInit() {
-    this.loadChartData(23, 9);
-    this.loadYearlyChartData(23)
+
+    this.loadChartData(23, this.today.getMonth() + 1, this.today.getFullYear());
+    debugger;
+    this.loadYearlyChartData(23, this.today.getFullYear());
   }
-  loadChartData(arg0: number, arg1: number) {
-    this.chartService.getMonthlyExpensesChart(23, 9).subscribe(res => {
+
+  loadChartData(userId: number, month: number, year: number) {
+    this.chartService.getMonthlyExpensesChart(
+      userId,
+      month,
+      year
+    ).subscribe(res => {
       const data = res.data;
       this.chartValues = this.allCategories.map(cat => data[cat] ?? 0);
 
@@ -43,8 +52,18 @@ export class ChartsComponent {
     });
   }
 
-  loadYearlyChartData(userId: number) {
-    this.chartService.getYearlyExpensesChart(23).subscribe(res => {
+  onMonthYearChange() {
+    if (this.date1) {
+      const month = this.date1.getMonth() + 1;
+      const year = this.date1.getFullYear();
+      this.loadChartData(23, month, year);
+    }
+  }
+
+
+
+  loadYearlyChartData(userId: number, year: number) {
+    this.chartService.getYearlyExpensesChart(23, year).subscribe(res => {
       const data = res.data;
 
       this.barValues = Array.from({ length: 12 }, (_, i) => {
@@ -54,6 +73,13 @@ export class ChartsComponent {
 
       this.buildBarChart();
     });
+  }
+
+  onYearChange() {
+    if (this.date2) {
+      const year = this.date2.getFullYear();
+      this.loadYearlyChartData(23, year);
+    }
   }
 
 

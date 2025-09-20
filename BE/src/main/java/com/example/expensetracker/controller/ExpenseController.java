@@ -82,14 +82,14 @@ public class ExpenseController {
     }
 
     @GetMapping("/monthly-expenses-chart")
-    public ApiResponse<Map<Category, Double>> getMonthlyExpensesChart(@RequestParam Long userId, @RequestParam int month) {
-        Map<Category, Double> chartData = expenseService.getMonthlyExpensesChart(userId, month);
+    public ApiResponse<Map<Category, Double>> getMonthlyExpensesChart(@RequestParam Long userId, @RequestParam int month , @RequestParam int year) {
+        Map<Category, Double> chartData = expenseService.getMonthlyExpensesChart(userId, month, year);
         return new ApiResponse<>(200, "Monthly expenses chart data", chartData);
     }
 
     @GetMapping("/monthwise-expenses")
-    public ApiResponse<Map<Integer, Double>> getYearlyExpensesChart(Long userId){
-        Map<Integer, Double> monthlyData = this.expenseService.getYearlyExpensesChart(userId);
+    public ApiResponse<Map<Integer, Double>> getYearlyExpensesChart(Long userId, @RequestParam int year){
+        Map<Integer, Double> monthlyData = this.expenseService.getYearlyExpensesChart(userId, year);
         return new ApiResponse<>(200, "Monthly expenses chart data", monthlyData);
     }
 

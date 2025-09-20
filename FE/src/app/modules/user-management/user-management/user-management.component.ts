@@ -3,6 +3,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { UserMngmntService } from '../service/user-mngmnt.service';
 import { NgImportsModule } from '../../../ngimports';
 import { Table } from 'primeng/table';
+import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
+import { FooterComponent } from "../../landing-page/footer/footer.component";
 
 export interface User {
   id?: number;
@@ -32,7 +34,7 @@ interface ExportColumn {
 
 @Component({
   selector: 'app-user-management',
-  imports: [NgImportsModule],
+  imports: [NgImportsModule, TopbarComponent, FooterComponent],
   providers: [MessageService, ConfirmationService, UserMngmntService],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.css'
