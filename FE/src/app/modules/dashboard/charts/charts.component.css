@@ -1,14 +1,6 @@
-div.w-100 {
+/* div.w-100 {
     max-width: 100%;
     height: auto;
     margin-top: 50px;
     padding: 10px;
-    /* add padding if necessary */
-}
-
-/* @media (max-width: 768px) {
-    div.w-100 {
-        max-width: 100%;
-        height: auto;
-    }
 } */

@@ -35,7 +35,7 @@ export class ChartsComponent {
   ngOnInit() {
 
     this.loadChartData(23, this.today.getMonth() + 1, this.today.getFullYear());
-    debugger;
+
     this.loadYearlyChartData(23, this.today.getFullYear());
   }
 

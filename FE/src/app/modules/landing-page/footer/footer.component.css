@@ -13,7 +13,112 @@ main {
 }
 
 footer {
-    background-color: rgb(228, 227, 227);
+    background-color: rgb(218, 230, 246);
+
+    footer {
+        background-color: #f9f9f9;
+        /* softer white/grey to match page */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        /* neutral dark text */
+        margin-top: auto;
+    }
+
+    .footerContainer {
+        width: 100%;
+        padding: 40px 20px 10px;
+    }
+
+    .socialIcons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .socialIcons a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background-color: #ffffff;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .socialIcons a i {
+        font-size: 1.2em;
+        color: #333;
+    }
+
+    .socialIcons a:hover {
+        background-color: #007bff;
+        /* brand accent color */
+        transform: translateY(-3px);
+    }
+
+    .socialIcons a:hover i {
+        color: #fff;
+    }
+
+    .footerNav {
+        margin: 20px 0;
+    }
+
+    .footerNav ul {
+        display: flex;
+        justify-content: center;
+        list-style-type: none;
+        flex-wrap: wrap;
+        padding: 0;
+    }
+
+    .footerNav ul li a {
+        color: #0c0c0c;
+        margin: 10px 15px;
+        text-decoration: none;
+        font-size: 1em;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .footerNav ul li a:hover {
+        color: #007bff;
+        /* same accent */
+    }
+
+    .footerBottom {
+        background-color: #b8d7f9;
+        /* light grey bottom strip */
+        padding: 20px;
+        text-align: center;
+    }
+
+    .footerBottom p {
+        margin: 0;
+        font-size: 0.9em;
+        color: #2d2c2c;
+    }
+
+    .designer {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        color: #007bff;
+        /* highlight */
+    }
+
+    @media (max-width: 700px) {
+        .footerNav ul {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .socialIcons {
+            gap: 8px;
+        }
+    }
 }
 
 .footerContainer {
@@ -76,13 +181,13 @@ footer {
 }
 
 .footerBottom {
-    background-color: rgba(34, 34, 34, 0.8);
+    background-color: rgb(0, 0, 0);
     padding: 20px;
     text-align: center;
 }
 
 .footerBottom p {
-    color: rgb(255, 253, 253);
+    color: rgb(110, 109, 109);
 }
 
 .designer {

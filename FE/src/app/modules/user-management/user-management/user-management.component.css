@@ -39,3 +39,10 @@
     padding: 1.2rem 0.5rem;
 
 }
+
+.card {
+    border: 1px solid #a9a8a8;
+    border-radius: 8px;
+    background-color: #fff;
+
+}

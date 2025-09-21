@@ -10,8 +10,12 @@
 
  .card {
      --bs-card-border-width: 0px;
+     border: 1px solid #a9a8a8;
+     border-radius: 8px;
      /* or use var(--bs-border-width) */
  }
+
+
 
  .card-border {
      --bs-card-border-width: 5px;

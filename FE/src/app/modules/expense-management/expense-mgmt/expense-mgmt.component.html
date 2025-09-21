@@ -7,7 +7,7 @@
             <form [formGroup]="useForm" (ngSubmit)="onSubmit()" class="form-section card p-3 card-border"
                 style="background-color:#f8f9fa;">
 
-                <h5 class="mb-3" style="text-align: center; margin-top: 10px;">
+                <h5 class="mb-3" style="text-align: center; margin-top: 30px;">
                     {{ isEditMode ? 'Update Expense' : 'Add Expense' }}
                 </h5>
 
@@ -58,7 +58,7 @@
                 <!-- Description -->
                 <div class="mb-3">
                     <label for="comment" class="form-label">Description:</label>
-                    <textarea class="form-control" rows="4" id="comment" formControlName="description"
+                    <textarea class="form-control" rows="6" id="comment" formControlName="description"
                         placeholder="Enter description"></textarea>
                 </div>
 
@@ -76,7 +76,7 @@
 
 
         <div class="col-md-9 mt-2" style="padding-left: 10px; padding-right: 0px;">
-            <div class="card">
+            <div class="card p-1">
                 <p-toast />
                 <p-toolbar styleClass="p-1">
                     <ng-template #start>
@@ -107,12 +107,12 @@
                             <th style="width: 3rem">
                                 <p-tableHeaderCheckbox />
                             </th>
-                            <th pSortableColumn="expenseDate" style="min-width:16rem">
+                            <th pSortableColumn="expenseDate" style="min-width:10rem">
                                 Expense Date
                                 <p-sortIcon field="expenseDate" />
                             </th>
 
-                            <th pSortableColumn="category" style="min-width: 8rem">
+                            <th pSortableColumn="category" style="min-width: 10rem">
                                 Category
                                 <p-sortIcon field="category" />
                             </th>
@@ -120,11 +120,11 @@
                                 Amount
                                 <p-sortIcon field="amount" />
                             </th>
-                            <th pSortableColumn="description" style="min-width: 12rem">
+                            <th pSortableColumn="description" style="min-width: 10rem">
                                 Description
                                 <p-sortIcon field="description" />
                             </th>
-                            <th style="min-width: 12rem; text-align: center;">
+                            <th style="min-width: 10rem; text-align: center;">
                                 Actions
                             </th>
                         </tr>
@@ -136,10 +136,10 @@
                             <td style="width: 3rem">
                                 <p-tableCheckbox [value]="expense" />
                             </td>
-                            <td style="min-width: 12rem">{{ expense.expenseDate }}</td>
-                            <td style="min-width: 16rem">{{ expense.category }}</td>
-                            <td style="min-width: 16rem">{{ expense.amount }}</td>
-                            <td style="min-width: 16rem">{{ expense.description }}</td>
+                            <td style="min-width: 10rem">{{ expense.expenseDate }}</td>
+                            <td style="min-width: 10rem">{{ expense.category }}</td>
+                            <td style="min-width: 10rem">{{ expense.amount }}</td>
+                            <td style="min-width: 10rem">{{ expense.description }}</td>
                             <td>
                                 <p-button icon="pi pi-pencil" styleClass="mx-4" [rounded]="true" [text]="true"
                                     (click)="editExpense(expense)" />

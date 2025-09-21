@@ -1,9 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light px-3 py-0">
+<nav class="navbar navbar-expand-lg custom-navbar px-3 py-2 shadow-sm">
     <!-- Logo -->
     <a class="navbar-brand d-flex align-items-center" href="#">
         <img class="logo-width" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-            alt="logo" style="height: 60px; width: 70px;" />
-        <span class="fw-bold fs-4">DEEPSPEND</span>
+            alt="logo" style="height: 55px; width: 80px;" />
     </a>
 
     <!-- Toggler -->
@@ -13,26 +12,29 @@
 
     <!-- Menu -->
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-        <ul class="navbar-nav mx-auto gap-3">
+        <ul class="navbar-nav gap-3">
             <li class="nav-item">
-                <a class="nav-link fw-bold fs-5" routerLink="/home">Home</a>
+                <a class="nav-link fs-5" routerLink="/home" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link fw-bold fs-5" routerLink="/charts">Charts</a>
+                <a class="nav-link fs-5" routerLink="/charts" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }">Charts</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link fw-bold fs-5" routerLink="/expense-mgmt">Expense
-                    Management</a>
+                <a class="nav-link fs-5" routerLink="/expense-mgmt" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }">Expense Management</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link fw-bold fs-5" routerLink="/user-mgmt">User Management</a>
+                <a class="nav-link fs-5" routerLink="/user-mgmt" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }">User Management</a>
             </li>
         </ul>
 
-
         <!-- Buttons -->
         <div class="d-flex gap-2">
-            <a routerLink="/login" class="btn btn-outline-primary rounded-pill">Profile</a>
+            <a routerLink="/login" class="btn profile-btn rounded-pill px-4 fw-semibold"
+                routerLinkActive="active">Profile</a>
         </div>
     </div>
 </nav>
