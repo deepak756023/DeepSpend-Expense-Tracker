@@ -8,7 +8,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('jwtToken');
 
   if (token) {
     const cloned = req.clone({

@@ -1,6 +1,6 @@
 <app-topbar></app-topbar>
 
-<div class="card">
+<div class="card m-1 p-2">
     <p-toast />
     <p-toolbar styleClass="mb-6">
         <ng-template #start>
@@ -43,12 +43,12 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox />
                 </th>
-                <th pSortableColumn="firstName" style="min-width:16rem">
+                <th pSortableColumn="firstName" style="min-width:10rem">
                     First Name
                     <p-sortIcon field="firstName" />
                 </th>
 
-                <th pSortableColumn="lastName" style="min-width: 8rem">
+                <th pSortableColumn="lastName" style="min-width: 10rem">
                     Last Name
                     <p-sortIcon field="lastName" />
                 </th>
@@ -56,23 +56,23 @@
                     UserName
                     <p-sortIcon field="username" />
                 </th>
-                <th pSortableColumn="phone" style="min-width: 12rem">
+                <th pSortableColumn="phone" style="min-width: 10rem">
                     Contacts
                     <p-sortIcon field="phone" />
                 </th>
-                <th pSortableColumn="role" style="min-width: 12rem">
+                <th pSortableColumn="role" style="min-width: 10rem">
                     Role
                     <p-sortIcon field="role" />
                 </th>
-                <th pSortableColumn="profession" style="min-width: 12rem">
+                <th pSortableColumn="profession" style="min-width: 10rem">
                     Profession
                     <p-sortIcon field="profession" />
                 </th>
-                <th pSortableColumn="createdAt" style="min-width: 12rem">
+                <th pSortableColumn="createdAt" style="min-width: 10rem">
                     CreatedAt
                     <p-sortIcon field="createdAt" />
                 </th>
-                <th style="min-width: 12rem; text-align: center;">
+                <th style="min-width: 10rem; text-align: center;">
                     Actions
                 </th>
             </tr>
@@ -84,13 +84,13 @@
                 <td style="width: 3rem">
                     <p-tableCheckbox [value]="user" />
                 </td>
-                <td style="min-width: 12rem">{{ user.firstName }}</td>
-                <td style="min-width: 16rem">{{ user.lastName }}</td>
-                <td style="min-width: 16rem">{{ user.username }}</td>
-                <td style="min-width: 16rem">{{ user.phone }}</td>
-                <td style="min-width: 16rem">{{ user.role }}</td>
-                <td style="min-width: 16rem">{{ user.profession }}</td>
-                <td style="min-width: 16rem">{{ user.createdAt }}</td>
+                <td style="min-width: 10rem">{{ user.firstName }}</td>
+                <td style="min-width: 10rem">{{ user.lastName }}</td>
+                <td style="min-width: 10rem">{{ user.username }}</td>
+                <td style="min-width: 10rem">{{ user.phone }}</td>
+                <td style="min-width: 10rem">{{ user.role }}</td>
+                <td style="min-width: 10rem">{{ user.profession }}</td>
+                <td style="min-width: 10rem">{{ user.createdAt }}</td>
                 <!-- <td>{{ user.price | currency: 'USD' }}</td> -->
                 <td>
                     <p-button icon="pi pi-pencil" styleClass="mx-4" [rounded]="true" [text]="true"

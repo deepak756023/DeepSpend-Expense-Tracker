@@ -34,7 +34,7 @@ interface ExportColumn {
 @Component({
   selector: 'app-expense-mgmt',
   imports: [NgImportsModule, FormsModule, ReactiveFormsModule, CommonModule, TopbarComponent, FooterComponent],
-  providers: [MessageService, ConfirmationService, ExpenseMgmtService],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './expense-mgmt.component.html',
   styleUrl: './expense-mgmt.component.css'
 })
