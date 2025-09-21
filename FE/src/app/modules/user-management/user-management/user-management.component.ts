@@ -35,7 +35,7 @@ interface ExportColumn {
 @Component({
   selector: 'app-user-management',
   imports: [NgImportsModule, TopbarComponent, FooterComponent],
-  providers: [MessageService, ConfirmationService, UserMngmntService],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.css'
 })
