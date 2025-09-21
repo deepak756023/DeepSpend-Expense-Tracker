@@ -1,13 +1,14 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
+  const skipEndpoints = ['/login', '/register', '/charts'];
+  const shouldSkip = skipEndpoints.some(endpoint => req.url.endsWith(endpoint));
 
-  if (req.url.includes('/login') || req.url.includes('/register') || req.url.includes('/charts')) {
+  if (shouldSkip) {
     return next(req);
   }
 
   const token = localStorage.getItem('jwtToken');
-  console.log('Token from Interceptor:', token);
 
   if (token) {
     const cloned = req.clone({
