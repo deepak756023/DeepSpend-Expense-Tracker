@@ -15,13 +15,13 @@ public class EmailSenderService {
     }
 
     //Password Reset
-    public void sendResetEmail(String to, String token) {
+    public void sendResetEmail(String to, String token, String subject) {
 
         String link = "http://localhost:4200/reset-password?token=" + token;
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("deepaknayak55260@gmail.com");
         message.setTo(to);
-        message.setSubject("Password Reset Request");
+        message.setSubject(subject);
         message.setText("Click the link to reset your password: " + link);
         mailSender.send(message);
     }

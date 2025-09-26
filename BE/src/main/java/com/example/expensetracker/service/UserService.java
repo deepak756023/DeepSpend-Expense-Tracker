@@ -3,10 +3,7 @@ package com.example.expensetracker.service;
 import ch.qos.logback.core.util.StringUtil;
 import com.example.expensetracker.entity.PasswordResetToken;
 import com.example.expensetracker.entity.User;
-import com.example.expensetracker.exception.custom_exception.InvalidTokenException;
-import com.example.expensetracker.exception.custom_exception.NoSuchUserExistWithThisMailIdException;
-import com.example.expensetracker.exception.custom_exception.PasswordNotSetException;
-import com.example.expensetracker.exception.custom_exception.WrongPasswordException;
+import com.example.expensetracker.exception.custom_exception.*;
 import com.example.expensetracker.helper.EmailSenderService;
 import com.example.expensetracker.repository.PasswordResetTokenRepository;
 import com.example.expensetracker.repository.UserRepo;
@@ -57,6 +54,11 @@ public class UserService {
         if(user == null){
             throw  new NoSuchUserExistWithThisMailIdException("You don't have any account with this Email");
         }
+
+        if(!user.isActive()){
+            throw new AccountDeactivatedException("Your account is deactivated, please contact admin");
+        }
+
         if(!encoder.matches(password, user.getPassword())){
             throw  new WrongPasswordException("You have Entered wrong password");
         }
@@ -64,21 +66,26 @@ public class UserService {
         Authentication authentication =
                 authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), password));
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(user.getUsername()) ;
+            return jwtService.generateToken(user.getUsername(), user) ;
         } else {
             return "fail";
         }
     }
 
     //    for password reset
-    public void createPasswordResetToken(String username) {
+    public void createPasswordResetToken(String username, String type) {
         User user = repo.findByUsername(username);
 
         if (user == null) {
             throw new NoSuchUserExistWithThisMailIdException("No user present with this Username : " + username);
         }
 
-        if(user.getPassword() == null){
+        if(!user.isActive()){
+            throw new AccountDeactivatedException("Your account is deactivated, please contact admin");
+        }
+
+
+        if(user.getPassword() == null && type.equals("password reset request")){
             throw new PasswordNotSetException("You have not generated your password, please check your mail to set your password");
         }
 
@@ -99,7 +106,7 @@ public class UserService {
             resetToken.setExpiryDate(newExpiry);
             tokenRepository.save(resetToken);
         }
-        emailSenderService.sendResetEmail(user.getUsername(), newToken);
+        emailSenderService.sendResetEmail(user.getUsername(), newToken, type);
     }
 
     public void resetPassword(String token, String newPassword) {

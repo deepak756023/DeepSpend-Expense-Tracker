@@ -145,7 +145,8 @@ export class ExpenseMgmtComponent implements OnInit {
   }
 
   loadDemoData(): void {
-    this.expenseMgmtService.getExpenses().subscribe((data) => {
+    const userId = localStorage.getItem('user_id');
+    this.expenseMgmtService.getExpenses(Number(userId)).subscribe((data) => {
       this.expenses = data;
       this.cd.markForCheck();
     });

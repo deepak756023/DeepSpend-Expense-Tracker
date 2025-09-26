@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { FooterComponent } from "../../landing-page/footer/footer.component";
+import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
 
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterLink, FooterComponent, TopbarComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -42,8 +44,11 @@ export class RegisterComponent {
     createdAt: new FormControl(new Date()),
     isAgreeTOS: new FormControl("", [Validators.requiredTrue]),
     password: new FormControl(""),
+    isActive: new FormControl(true)
 
   });
+
+  constructor() { }
 
   public isFormValid() {
     return this.useForm.invalid;
@@ -71,6 +76,7 @@ export class RegisterComponent {
 
   registerUser() {
     const formValue = { ...this.useForm.value };
+    console.log(formValue.isActive);
     this.useForm.reset();
     this.isSpinnerOn = true;
     this.http.post("http://localhost:8080/auth/register", formValue).subscribe({

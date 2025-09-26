@@ -87,9 +87,9 @@
                     </ng-template>
 
                     <ng-template #end>
-                        <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
+                        <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
                             chooseLabel="Import" auto customUpload styleClass="mr-2 inline-block"
-                            [chooseButtonProps]="{ severity: 'secondary' }" />
+                            [chooseButtonProps]="{ severity: 'secondary' }" /> -->
                         <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
                     </ng-template>
                 </p-toolbar>
@@ -152,7 +152,7 @@
                     <!-- Summary -->
                     <ng-template #summary>
                         <div class="flex items-center justify-between">
-                            In total there are {{ expenses ? expenses.length : 0 }} users.
+                            In total there are {{ expenses ? expenses.length : 0 }} expenses.
                         </div>
                     </ng-template>
 

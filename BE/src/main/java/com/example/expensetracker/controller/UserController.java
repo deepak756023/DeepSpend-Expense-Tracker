@@ -2,9 +2,11 @@ package com.example.expensetracker.controller;
 
 import com.example.expensetracker.entity.ResetPasswordRequest;
 import com.example.expensetracker.entity.User;
+import com.example.expensetracker.exception.custom_exception.NoSuchUserExistWithThisMailIdException;
 import com.example.expensetracker.exception.custom_exception.UserAlreadyExistsException;
 import com.example.expensetracker.repository.UserRepo;
 import com.example.expensetracker.response.ApiResponse;
+import com.example.expensetracker.response.ErrorResponse;
 import com.example.expensetracker.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,14 +39,20 @@ public class UserController {
 
     @PostMapping("/auth/register")
     public ApiResponse<User> addUser(@RequestBody User user) {
-        if(userRepo.findByUsername(user.getUsername()) != null){
-            if(userRepo.findByUsername(user.getUsername()).getPassword() == null){
-                throw new UserAlreadyExistsException("User Already Registered but password not generated, please check your mail" );
+        User existingUser = userRepo.findByUsername(user.getUsername());
+
+        if (existingUser != null) {
+            if (existingUser.getPassword() == null) {
+
+                throw new UserAlreadyExistsException(
+
+                        "User already registered but password not generated, please check your mail"
+                );
             }
-            throw new UserAlreadyExistsException("User Already Registered");
+            throw new UserAlreadyExistsException("User already registered");
         }
         this.userRepo.save(user);
-        userService.createPasswordResetToken(user.getUsername());
+        userService.createPasswordResetToken(user.getUsername(), "create password request");
         return new ApiResponse<>(200, "Check Your mail for Password generation", user);
     }
 
@@ -59,7 +67,7 @@ public class UserController {
 
     @GetMapping("/auth/forgot-password")
     public ApiResponse<String> forgotPassword(@RequestParam String email) {
-        userService.createPasswordResetToken(email);
+        userService.createPasswordResetToken(email, "password reset request");
         return new ApiResponse<>(200, "Password reset link sent to your mailId : " + email, email);
     }
 
@@ -78,17 +86,20 @@ public class UserController {
 
     @GetMapping("/admin/getAllUsers")
     public List<User> getAllUsers(){
-        return userRepo.findAll();
+
+        List<User> list = userRepo.findAll();
+        return list.stream().filter(User::isActive).toList();
     }
 
     @DeleteMapping("/admin/deleteUser/{username}")
-    public ApiResponse<String> deleteUser(@PathVariable String username){
+    public ApiResponse<User> deleteUser(@PathVariable String username){
         User user = userRepo.findByUsername(username);
         if(user == null){
-            return new ApiResponse<>(400, "No such user exist with this username", username);
+            throw new NoSuchUserExistWithThisMailIdException("User Not present");
         }
-        userRepo.delete(user);
-        return new ApiResponse<>(200, "User deleted successfully", username);
+        user.setActive(false);
+        userRepo.save(user);
+        return new ApiResponse<>(200, "User deleted successfully", user);
     }
 
     @DeleteMapping("/admin/deleteSelectedUsers")
@@ -96,7 +107,8 @@ public class UserController {
         for(User u : user){
             User existingUser = userRepo.findByUsername(u.getUsername());
             if(existingUser != null){
-                userRepo.delete(existingUser);
+                existingUser.setActive(false);
+                userRepo.save(existingUser);
             }
         }
         return new ApiResponse<>(200, "Selected Users deleted successfully", user.toString());
@@ -104,7 +116,7 @@ public class UserController {
     }
 
     @PutMapping("/user/updateUser/{id}")
-    public ApiResponse<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public User updateUser(@PathVariable Long id, @RequestBody User user) {
         User oldUser = userRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
@@ -115,9 +127,7 @@ public class UserController {
         oldUser.setZipCode(user.getZipCode());
         oldUser.setProfession(user.getProfession());
 
-        User updatedUser = userRepo.save(oldUser);
-
-        return new ApiResponse<>(200, "Selected User Updated successfully", updatedUser);
+        return userRepo.save(oldUser);
     }
 
 }

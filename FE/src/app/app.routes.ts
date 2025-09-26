@@ -14,7 +14,7 @@ import { FooterComponent } from './modules/landing-page/footer/footer.component'
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'login',
+        redirectTo: 'home',
         pathMatch: 'full'
     },
     {

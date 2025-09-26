@@ -4,9 +4,22 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
+import { jwtDecode } from 'jwt-decode';
+import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
+import { FooterComponent } from "../../landing-page/footer/footer.component";
+
+export interface JwtPayload {
+  id: number;
+  role: string;
+  sub: string;
+  iat: number;
+  exp: number;
+}
+
+
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, TopbarComponent, FooterComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -79,6 +92,10 @@ export class LoginComponent implements OnInit {
           console.log("Login success:", response);
           if (response.data) {
             localStorage.setItem("jwtToken", response.data);
+
+            const decoded = jwtDecode<JwtPayload>(response.data);
+            localStorage.setItem("user_id", decoded.id.toString());
+            localStorage.setItem("user_role", decoded.role);
 
             this.showSuccess(response.message);
           }
