@@ -30,10 +30,8 @@ public class ExpenseController {
     }
 
     @GetMapping("/all-expenses")
-    public ApiResponse<List<Expense>> getAllExpenses(@RequestParam Long id){
-        List<Expense> expenses = this.expenseService.getAllExpenses(id);
-
-        return new ApiResponse<>(200, "get all expenses by a particular user", expenses);
+    public List<Expense> getAllExpenses(@RequestParam Long id){
+        return this.expenseService.getAllExpenses(id);
     }
 
     @GetMapping("/all-users-expenses")

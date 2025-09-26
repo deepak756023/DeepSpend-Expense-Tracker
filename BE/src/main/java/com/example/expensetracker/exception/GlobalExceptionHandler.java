@@ -16,6 +16,8 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
     }
 
+
+
     @ExceptionHandler(InvalidTokenException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public @ResponseBody ErrorResponse handleExpenseException(InvalidTokenException exception) {
@@ -38,6 +40,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public @ResponseBody ErrorResponse handleExpenseException(WrongPasswordException exception) {
         return new ErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND.value());
+    }
+
+    @ExceptionHandler(AccountDeactivatedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public @ResponseBody ErrorResponse handleExpenseException(AccountDeactivatedException exception) {
+        return new ErrorResponse(exception.getMessage(), HttpStatus.UNAUTHORIZED.value());
     }
 
     @ExceptionHandler(NoSuchExpensesExists.class)

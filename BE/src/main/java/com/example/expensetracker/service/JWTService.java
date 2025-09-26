@@ -1,6 +1,7 @@
 package com.example.expensetracker.service;
 
 
+import com.example.expensetracker.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -34,9 +35,11 @@ public class JWTService {
 
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username, User user) {
 
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id", user.getId());
+        claims.put("role", user.getRole());
 
         return Jwts.builder()
                 .claims()

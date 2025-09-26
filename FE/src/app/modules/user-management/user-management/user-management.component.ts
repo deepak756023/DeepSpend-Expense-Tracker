@@ -19,6 +19,7 @@ export interface User {
   agreeTOS?: boolean;
   phone?: string;
   expenses?: any[];
+  isActive?: boolean;
 }
 
 interface Column {

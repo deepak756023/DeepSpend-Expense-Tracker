@@ -1,6 +1,7 @@
 package com.example.expensetracker.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,8 +41,12 @@ public class User {
     private String profession;
 
     // New boolean field for Terms of Service agreement
+    @JsonProperty("isAgreeTOS")
     @Column(name = "is_agree_TOS", nullable = false)
-    private boolean isAgreeTOS; // default false
+    private boolean isAgreeTOS;
+    @JsonProperty("isActive")
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive;
 
     @Column(name = "phone", nullable = false)
     private String phone;
@@ -54,11 +59,12 @@ public class User {
     public User() {
     }
 
-    public User(LocalDateTime createdAt, List<Expense> expenses, String firstName, Long id, boolean isAgreeTOS, String lastName, String password, String phone, String profession, Role role, String username, String zipCode) {
+    public User(LocalDateTime createdAt, List<Expense> expenses, String firstName, Long id, boolean isActive, boolean isAgreeTOS, String lastName, String password, String phone, String profession, Role role, String username, String zipCode) {
         this.createdAt = createdAt;
         this.expenses = expenses;
         this.firstName = firstName;
         this.id = id;
+        this.isActive = isActive;
         this.isAgreeTOS = isAgreeTOS;
         this.lastName = lastName;
         this.password = password;
@@ -73,97 +79,107 @@ public class User {
         return createdAt;
     }
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public List<Expense> getExpenses() {
         return expenses;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public Long getId() {
         return id;
-    }
-
-    public boolean isAgreeTOS() {
-        return isAgreeTOS;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getProfession() {
-        return profession;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public void setProfession(String profession) {
-        this.profession = profession;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setAgreeTOS(boolean agreeTOS) {
-        isAgreeTOS = agreeTOS;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setExpenses(List<Expense> expenses) {
-        this.expenses = expenses;
+    public void setActive(boolean active) {
+        isActive = active;
     }
+
+    public boolean isAgreeTOS() {
+        return isAgreeTOS;
+    }
+
+    public void setAgreeTOS(boolean agreeTOS) {
+        isAgreeTOS = agreeTOS;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+
 
     @Override
     public String toString() {
@@ -178,6 +194,7 @@ public class User {
                 ", zipCode='" + zipCode + '\'' +
                 ", profession='" + profession + '\'' +
                 ", isAgreeTOS=" + isAgreeTOS +
+                ", isActive=" + isActive +
                 ", phone='" + phone + '\'' +
                 ", expenses=" + expenses +
                 '}';

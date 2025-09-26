@@ -34,9 +34,9 @@ export class ChartsComponent {
 
   ngOnInit() {
 
-    this.loadChartData(23, this.today.getMonth() + 1, this.today.getFullYear());
+    this.loadChartData(Number(localStorage.getItem('user_id')), this.today.getMonth() + 1, this.today.getFullYear());
 
-    this.loadYearlyChartData(23, this.today.getFullYear());
+    this.loadYearlyChartData(Number(localStorage.getItem('user_id')), this.today.getFullYear());
   }
 
   loadChartData(userId: number, month: number, year: number) {
@@ -56,18 +56,18 @@ export class ChartsComponent {
     if (this.date1) {
       const month = this.date1.getMonth() + 1;
       const year = this.date1.getFullYear();
-      this.loadChartData(23, month, year);
+      this.loadChartData(Number(localStorage.getItem('user_id')), month, year);
     }
   }
 
 
 
   loadYearlyChartData(userId: number, year: number) {
-    this.chartService.getYearlyExpensesChart(23, year).subscribe(res => {
+    this.chartService.getYearlyExpensesChart(userId, year).subscribe(res => {
       const data = res.data;
 
       this.barValues = Array.from({ length: 12 }, (_, i) => {
-        const month = (i + 1).toString(); // "1".."12"
+        const month = (i + 1).toString();
         return data[month] ?? 0;
       });
 
@@ -78,7 +78,7 @@ export class ChartsComponent {
   onYearChange() {
     if (this.date2) {
       const year = this.date2.getFullYear();
-      this.loadYearlyChartData(23, year);
+      this.loadYearlyChartData(Number(localStorage.getItem('user_id')), year);
     }
   }
 

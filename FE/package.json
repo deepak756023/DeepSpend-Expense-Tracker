@@ -20,6 +20,7 @@
     "@primeng/themes": "^19.1.4",
     "bootstrap": "^5.3.8",
     "chart.js": "^4.5.0",
+    "jwt-decode": "^4.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^19.1.4",
     "quill": "^2.0.3",

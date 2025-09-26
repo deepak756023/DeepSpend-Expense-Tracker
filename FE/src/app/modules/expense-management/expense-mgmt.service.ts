@@ -12,10 +12,12 @@ export class ExpenseMgmtService {
 
   constructor(private http: HttpClient) { }
 
-  getExpenses(): Observable<Expense[]> {
-    const getExpensesApi = `${this.baseUrl}/all-users-expenses`;
+  getExpenses(userId: number): Observable<Expense[]> {
+    const getExpensesApi = `${this.baseUrl}/all-expenses?id=${userId}`;
     return this.http.get<Expense[]>(getExpensesApi);
   }
+
+
 
   delete(expense: Expense): Observable<any> {
     const deleteExpenseApi = `${this.baseUrl}/delete/${expense.id}`;
