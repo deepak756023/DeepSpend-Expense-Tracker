@@ -96,6 +96,7 @@ export class LoginComponent implements OnInit {
             const decoded = jwtDecode<JwtPayload>(response.data);
             localStorage.setItem("user_id", decoded.id.toString());
             localStorage.setItem("user_role", decoded.role);
+            localStorage.setItem("exp", decoded.exp.toString());
 
             this.showSuccess(response.message);
           }

@@ -4,18 +4,41 @@ import { RegisterComponent } from './modules/auth/register/register.component';
 import { ForgetPasswordComponent } from './modules/auth/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './modules/auth/reset-password/reset-password.component';
 import { CreatePwdComponent } from './modules/auth/create-pwd/create-pwd.component';
-import { TopbarComponent } from './modules/landing-page/topbar/topbar.component';
 import { UserManagementComponent } from './modules/user-management/user-management/user-management.component';
 import { ExpenseMgmtComponent } from './modules/expense-management/expense-mgmt/expense-mgmt.component';
 import { ChartsComponent } from './modules/dashboard/charts/charts.component';
 import { HomeComponent } from './modules/landing-page/home/home.component';
-import { FooterComponent } from './modules/landing-page/footer/footer.component';
+import { roleBasedAuthGuard } from './guards/role-based-auth.guard';
+import { UnauthorizedComponent } from './modules/landing-page/unauthorized/unauthorized.component';
+import { SessionExpiredComponent } from './modules/landing-page/session-expired/session-expired.component';
 
 export const routes: Routes = [
     {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full'
+    },
+    {
+        path: 'home',
+        component: HomeComponent
+    },
+    {
+        path: 'user-mgmt',
+        component: UserManagementComponent,
+        canActivate: [roleBasedAuthGuard],
+        data: { role: 'ADMIN' }
+    },
+    {
+        path: 'expense-mgmt',
+        component: ExpenseMgmtComponent,
+        canActivate: [roleBasedAuthGuard],
+        data: { role: 'USER' }
+    },
+    {
+        path: 'charts',
+        component: ChartsComponent,
+        canActivate: [roleBasedAuthGuard],
+        data: { role: 'USER' }
     },
     {
         path: 'login',
@@ -38,27 +61,16 @@ export const routes: Routes = [
         component: CreatePwdComponent
     },
     {
-        path: 'topbar',
-        component: TopbarComponent
+        path: 'unauthorized',
+        component: UnauthorizedComponent
     },
     {
-        path: 'user-mgmt',
-        component: UserManagementComponent
+        path: 'session-expired',
+        component: SessionExpiredComponent
+
     },
     {
-        path: 'expense-mgmt',
-        component: ExpenseMgmtComponent
-    },
-    {
-        path: 'charts',
-        component: ChartsComponent
-    },
-    {
-        path: 'home',
-        component: HomeComponent
-    },
-    {
-        path: 'footer',
-        component: FooterComponent
+        path: '**',
+        redirectTo: 'home'
     }
-]
+];
