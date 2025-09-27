@@ -49,10 +49,11 @@ export class ExpenseMgmtComponent implements OnInit {
   exportColumns: ExportColumn[] = [];
   isEditMode: boolean = false;
   editingExpenseId?: number;
+  userId: number = Number(localStorage.getItem('user_id'));
 
   useForm: FormGroup = new FormGroup({
     user: new FormGroup({
-      id: new FormControl(23)   // default userId
+      id: new FormControl(this.userId)
     }),
     category: new FormControl("", [Validators.required]),
     amount: new FormControl(null, [Validators.required]),
@@ -78,7 +79,7 @@ export class ExpenseMgmtComponent implements OnInit {
     this.editingExpenseId = expense.id;
 
     this.useForm.patchValue({
-      user: { id: expense.user?.id || 23 },
+      user: { id: expense.user?.id },
       category: expense.category,
       amount: expense.amount,
       description: expense.description,
@@ -102,7 +103,7 @@ export class ExpenseMgmtComponent implements OnInit {
               detail: res.message || 'Expense Updated!',
               life: 3000
             });
-            this.useForm.reset({ user: { id: 23 } });
+            this.useForm.reset({ user: { id: this.userId } });
             this.isEditMode = false;
             this.editingExpenseId = undefined;
             this.loadDemoData();
@@ -125,7 +126,7 @@ export class ExpenseMgmtComponent implements OnInit {
               detail: res.message || 'Expense Saved!',
               life: 3000
             });
-            this.useForm.reset({ user: { id: 23 } });
+            this.useForm.reset({ user: { id: this.userId } });
 
             if (res.data) {
               this.expenses.unshift(res.data);
@@ -145,8 +146,7 @@ export class ExpenseMgmtComponent implements OnInit {
   }
 
   loadDemoData(): void {
-    const userId = localStorage.getItem('user_id');
-    this.expenseMgmtService.getExpenses(Number(userId)).subscribe((data) => {
+    this.expenseMgmtService.getExpenses(this.userId).subscribe((data) => {
       this.expenses = data;
       this.cd.markForCheck();
     });

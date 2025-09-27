@@ -14,6 +14,7 @@ export class TopbarComponent {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('user_id');
     localStorage.removeItem('user_role');
+    localStorage.removeItem('exp');
     window.location.href = '/login';
   }
 
