@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
 import { FooterComponent } from "../../landing-page/footer/footer.component";
+import { TruncatePipe } from '../../../pipes/string-pipe/truncate.pipe';
 
 export interface Expense {
   id?: number;
@@ -33,7 +34,7 @@ interface ExportColumn {
 
 @Component({
   selector: 'app-expense-mgmt',
-  imports: [NgImportsModule, FormsModule, ReactiveFormsModule, CommonModule, TopbarComponent, FooterComponent],
+  imports: [NgImportsModule, FormsModule, ReactiveFormsModule, CommonModule, TopbarComponent, FooterComponent, TruncatePipe],
   providers: [MessageService, ConfirmationService],
   templateUrl: './expense-mgmt.component.html',
   styleUrl: './expense-mgmt.component.css'

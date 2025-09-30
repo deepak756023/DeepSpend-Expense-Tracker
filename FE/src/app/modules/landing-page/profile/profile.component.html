@@ -1,0 +1,53 @@
+<app-topbar></app-topbar>
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-header text-center mb-2">
+            <h2 class="mb-3">My Profile</h2>
+        </div>
+
+        <div class="input-group input-group-md mb-3">
+            <span class="input-group-text">username</span>
+            <input type="text" class="form-control" [value]="user.username" disabled>
+        </div>
+
+        <div class="input-group input-group-md mb-3">
+            <span class="input-group-text">firstname</span>
+            <input type="text" class="form-control" [(ngModel)]="user.firstName" [disabled]="!isUpdateMode" required>
+        </div>
+
+        <div class="input-group input-group-md mb-3">
+            <span class="input-group-text">lastname</span>
+            <input type="text" class="form-control" [(ngModel)]="user.lastName" [disabled]="!isUpdateMode">
+        </div>
+
+        <div class="input-group input-group-md mb-3">
+            <span class="input-group-text">zipcode</span>
+            <input type="text" class="form-control" [(ngModel)]="user.zipCode" [disabled]="!isUpdateMode">
+        </div>
+
+        <div class="input-group input-group-md mb-3">
+            <span class="input-group-text">profession</span>
+            <input type="text" class="form-control" [(ngModel)]="user.profession" [disabled]="!isUpdateMode">
+        </div>
+
+        <div class="input-group input-group-md mb-3">
+            <span class="input-group-text">Role</span>
+            <input type="text" class="form-control" [value]="user.role" disabled>
+        </div>
+
+        <div class="input-group input-group-md mb-3">
+            <span class="input-group-text">createdOn</span>
+            <input type="text" class="form-control" [value]="user.createdAt" disabled>
+        </div>
+
+        <div class="d-grid gap-2" *ngIf="!isUpdateMode">
+            <button type="button" class="btn btn-primary" (click)="update()">Update</button>
+        </div>
+
+        <div class="d-grid gap-2" *ngIf="isUpdateMode">
+            <button type="button" class="btn btn-success" (click)="save()">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
