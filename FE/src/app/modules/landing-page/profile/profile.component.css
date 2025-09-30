@@ -1,0 +1,32 @@
+/* Full screen container */
+.profile-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(220, 219, 219);
+}
+
+/* Card styling */
+.profile-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    max-width: 700px;
+    width: 100%;
+}
+
+/* Label section (span) */
+.input-group-text {
+    min-width: 150px;
+    background: #f0f0f0;
+    font-weight: 600;
+}
+
+.form-control[disabled] {
+    background: #fff !important;
+    font-weight: 500;
+    color: #333;
+}

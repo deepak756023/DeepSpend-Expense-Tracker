@@ -91,6 +91,15 @@ public class UserController {
         return list.stream().filter(User::isActive).toList();
     }
 
+    @GetMapping("/user/getUser/{id}")
+    public ApiResponse<User> getUser(@PathVariable Long id){
+        User user = userRepo.findById(id).orElseThrow(() -> new NoSuchUserExistWithThisMailIdException("User Not present"));
+        if(!user.isActive()){
+            throw new NoSuchUserExistWithThisMailIdException("User Not present");
+        }
+        return new ApiResponse<>(200, "User fetched successfully", user);
+    }
+
     @DeleteMapping("/admin/deleteUser/{username}")
     public ApiResponse<User> deleteUser(@PathVariable String username){
         User user = userRepo.findByUsername(username);

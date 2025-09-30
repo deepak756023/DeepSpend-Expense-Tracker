@@ -139,7 +139,10 @@
                             <td style="min-width: 10rem">{{ expense.expenseDate }}</td>
                             <td style="min-width: 10rem">{{ expense.category }}</td>
                             <td style="min-width: 10rem">{{ expense.amount }}</td>
-                            <td style="min-width: 10rem">{{ expense.description }}</td>
+                            <td style="min-width: 10rem" [title]="expense.description">
+                                {{ expense.description | truncate:30 }}
+                            </td>
+
                             <td>
                                 <p-button icon="pi pi-pencil" styleClass="mx-4" [rounded]="true" [text]="true"
                                     (click)="editExpense(expense)" />

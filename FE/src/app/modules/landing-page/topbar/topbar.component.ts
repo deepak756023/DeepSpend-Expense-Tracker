@@ -9,6 +9,9 @@ import { NgIf } from '@angular/common';
   styleUrl: './topbar.component.css'
 })
 export class TopbarComponent {
+  profile() {
+    window.location.href = '/my-profile';
+  }
 
   logout() {
     localStorage.removeItem('jwtToken');

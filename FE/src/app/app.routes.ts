@@ -11,6 +11,7 @@ import { HomeComponent } from './modules/landing-page/home/home.component';
 import { roleBasedAuthGuard } from './guards/role-based-auth.guard';
 import { UnauthorizedComponent } from './modules/landing-page/unauthorized/unauthorized.component';
 import { SessionExpiredComponent } from './modules/landing-page/session-expired/session-expired.component';
+import { ProfileComponent } from './modules/landing-page/profile/profile.component';
 
 export const routes: Routes = [
     {
@@ -37,6 +38,12 @@ export const routes: Routes = [
     {
         path: 'charts',
         component: ChartsComponent,
+        canActivate: [roleBasedAuthGuard],
+        data: { role: 'USER' }
+    },
+    {
+        path: 'my-profile',
+        component: ProfileComponent,
         canActivate: [roleBasedAuthGuard],
         data: { role: 'USER' }
     },
