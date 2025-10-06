@@ -6,7 +6,6 @@ import { User } from '../../user-management/user-management/user-management.comp
 import { ExpenseMgmtService } from '../expense-mgmt.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
 import { FooterComponent } from "../../landing-page/footer/footer.component";
 import { TruncatePipe } from '../../../pipes/string-pipe/truncate.pipe';
