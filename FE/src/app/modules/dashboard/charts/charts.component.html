@@ -7,7 +7,7 @@
             <div class="position-absolute top-0 start-0 m-3">
 
                 <!-- Datepicker -->
-                <p-datepicker [(ngModel)]="date1" view="month" dateFormat="mm/yy"
+                <p-datepicker [(ngModel)]="date1" view="month" dateFormat="mm/yy" [readonlyInput]="true"
                     placeholder="{{today.getMonth() + 1}}/{{today.getFullYear()}}" (onSelect)="onMonthYearChange()">
                 </p-datepicker>
 
@@ -23,8 +23,8 @@
         <!-- Bar Chart -->
         <div class="col-12 col-md-6 p-4 position-relative">
             <div class="position-absolute top-0 end-0 m-3">
-                <p-datepicker [(ngModel)]="date2" view="year" dateFormat="yy" placeholder="{{today.getFullYear()}}"
-                    (onSelect)="onYearChange()"></p-datepicker>
+                <p-datepicker [(ngModel)]="date2" view="year" dateFormat="yy" [readonlyInput]="true"
+                    placeholder="{{today.getFullYear()}}" (onSelect)="onYearChange()"></p-datepicker>
             </div>
 
             <div class="w-100 d-flex justify-content-center align-items-center"
