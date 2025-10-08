@@ -4,12 +4,10 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { __param } from 'tslib';
-import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
-import { FooterComponent } from "../../landing-page/footer/footer.component";
 
 @Component({
   selector: 'app-forget-password',
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule, TopbarComponent, FooterComponent],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './forget-password.component.html',
   styleUrl: './forget-password.component.css'
 })

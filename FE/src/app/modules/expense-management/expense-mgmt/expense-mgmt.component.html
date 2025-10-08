@@ -63,10 +63,10 @@
                 </div>
 
                 <!-- Buttons -->
-                <div class="d-flex justify-content-end gap-2">
-                    <button type="button" class="btn btn-secondary" (click)="useForm.reset()">Cancel</button>
+                <div class="d-flex justify-content-center gap-3">
+                    <button type="button" class="btn btn-secondary" (click)="useForm.reset()">Clear</button>
                     <button type="submit" class="btn btn-primary" [disabled]="useForm.invalid">
-                        {{ isEditMode ? 'Update' : 'Save' }}
+                        {{ isEditMode ? 'Update' : 'Add Expense' }}
                     </button>
                 </div>
 
@@ -150,12 +150,15 @@
                                     [text]="true" (click)="deleteExpense(expense)" />
                             </td>
                         </tr>
+
+
                     </ng-template>
+
 
                     <!-- Summary -->
                     <ng-template #summary>
                         <div class="flex items-center justify-between">
-                            In total there are {{ expenses ? expenses.length : 0 }} expenses.
+                            In total there are {{ expenses ? expenses.length : 0 }} records.
                         </div>
                     </ng-template>
 

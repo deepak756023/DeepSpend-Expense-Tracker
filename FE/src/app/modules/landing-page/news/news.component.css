@@ -1,75 +1,97 @@
+/* === Container Layout === */
 .news-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 20px;
-    padding: 20px;
-    background: #f4f6f9;
-    font-family: Arial, sans-serif;
+    gap: 25px;
+    padding: 40px;
+    background: linear-gradient(135deg, #f8fafc, #eef3f9);
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-/* Left Section */
+/* === Latest News Section === */
 .latest-news {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .section-title {
-    font-size: 1.7rem;
-    margin-bottom: 15px;
-    color: #333;
-    border-left: 4px solid #0077ff;
-    padding-left: 8px;
+    font-size: 1.8rem;
+    margin-bottom: 18px;
+    color: #1a202c;
+    border-left: 5px solid #0077ff;
+    padding-left: 10px;
+    font-weight: 600;
 }
 
 .news-card {
     margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #e2e2e2;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.news-card:last-child {
+    border-bottom: none;
 }
 
 .news-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 6px;
-    color: #222;
+    font-size: 1.2rem;
+    color: #0077ff;
+    margin-bottom: 8px;
+    font-weight: 600;
 }
 
 .news-card p {
-    color: #555;
-    font-size: 1.1rem;
-    margin-bottom: 6px;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 8px;
 }
 
 .news-card .date {
-    font-size: .9rem;
+    font-size: 0.9rem;
     color: #888;
 }
 
-/* Sidebar */
+/* === Sidebar === */
 .sidebar {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    height: fit-content;
+    position: sticky;
+    top: 90px;
 }
 
 .tips-list,
 .trending-list {
     list-style: none;
     padding: 0;
-    margin: 0 0 20px 0;
+    margin: 0 0 25px 0;
 }
 
 .tips-list li,
 .trending-list li {
-    padding: 6px 0;
+    padding: 10px 0;
     border-bottom: 1px dashed #ddd;
-    font-size: 1.1rem;
-    color: #444;
+    font-size: 1.05rem;
+    color: #333;
 }
 
 .tips-list li:last-child,
 .trending-list li:last-child {
     border-bottom: none;
+}
+
+/* === Responsive Design === */
+@media (max-width: 992px) {
+    .news-container {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: static;
+    }
 }
