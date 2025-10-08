@@ -60,7 +60,7 @@
     background-color: #4cafef;
     /* Circle background */
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,7 +70,7 @@
 
 .full-name {
     color: white;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 400;
 }
 
@@ -84,7 +84,7 @@
 
 .dropbtn {
     color: white;
-    font-size: 16px;
+    font-size: 15px;
     border: none;
     cursor: pointer;
 }
@@ -120,13 +120,24 @@
 }
 
 .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
+    background-color: #589ffb;
 }
 
 .btn-custom-border1 {
 
     color: white;
     font-size: large;
-    border-radius: 20px;
+    border-radius: 10px;
 
+}
+
+.btn {
+    border-radius: 10px;
+    border-width: 1px !important;
+    border-color: rgb(0, 89, 137) !important;
+}
+
+.text-color {
+    color: white !important;
+    font-size: large;
 }

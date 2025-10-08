@@ -3,10 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-
 import { jwtDecode } from 'jwt-decode';
-import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
-import { FooterComponent } from "../../landing-page/footer/footer.component";
 
 export interface JwtPayload {
   id: number;
@@ -19,7 +16,7 @@ export interface JwtPayload {
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, TopbarComponent, FooterComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

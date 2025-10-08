@@ -90,6 +90,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   exportCSV(): void {
+    this.dt.exportFilename = 'user-list-' + new Date().toString().slice(0, 24);
     this.dt.exportCSV();
   }
 
@@ -219,6 +220,7 @@ export class UserManagementComponent implements OnInit {
       },
     });
   }
+
 
 
 

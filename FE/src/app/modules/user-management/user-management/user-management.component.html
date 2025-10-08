@@ -25,7 +25,7 @@
         <ng-template #caption>
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                 <!-- Title on the left -->
-                <h5 style="margin: 0;">Manage Products</h5>
+                <h5 style="margin: 0;">Manage Users</h5>
 
                 <!-- Search input on the right -->
                 <div>
@@ -88,7 +88,7 @@
                 <td style="min-width: 10rem">{{ user.lastName }}</td>
                 <td style="min-width: 10rem">{{ user.username }}</td>
                 <td style="min-width: 10rem">{{ user.phone }}</td>
-                <td style="min-width: 10rem">{{ user.role }}</td>
+                <td style="min-width: 10rem">{{ user.role | lowercase }}</td>
                 <td style="min-width: 10rem">{{ user.profession }}</td>
                 <td style="min-width: 10rem">{{ user.createdAt }}</td>
                 <!-- <td>{{ user.price | currency: 'USD' }}</td> -->

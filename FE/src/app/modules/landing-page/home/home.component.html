@@ -1,37 +1,61 @@
 <app-topbar></app-topbar>
 
-<main>
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>Welcome to Expense Management App</h1>
-        <p>Track, manage, and analyze your expenses effortlessly</p>
-        <img src="https://akriviahcm.com/blog/wp-content/uploads/2024/05/10-Features-to-Look-for-in-Expense-Management-System.jpg"
-            alt="Expense Banner" style="width: 100%;">
+<main class="container-fluid p-0">
+
+    <!-- Hero Carousel -->
+    <section id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+
+
+
+            <div class="carousel-item active">
+                <img src="https://akriviahcm.com/blog/wp-content/uploads/2024/08/Tips-to-Choose-the-Best-Expense-Management-Software-in-2024-2.jpg"
+                    class="d-block w-100 carousel-img" alt="Add Expense">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Add Expenses</h3>
+                    <p>Quickly log your daily expenses with ease.</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img src="https://www.sutisoft.com/wp-content/uploads/2025/02/infographic.png"
+                    class="d-block w-100 carousel-img" alt="Reports">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>View Reports</h3>
+                    <p>Visualize your spending with clean reports.</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img src="https://cdn.prod.website-files.com/64244f777752183940b98af6/642451b361e9570cd6c814a1_63d836d3a17bf828a91ff322_expense_management.png"
+                    class="d-block w-100 carousel-img" alt="Settings">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Customize</h3>
+                    <p>Manage categories and preferences your way.</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img src="https://akriviahcm.com/blog/wp-content/uploads/2024/05/10-Features-to-Look-for-in-Expense-Management-System.jpg"
+                    class="d-block w-100 carousel-img" alt="Expense Management Banner">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Welcome to Expense Management App</h1>
+                    <p>Track, manage, and analyze your expenses effortlessly</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
     </section>
 
-    <!-- Features Section with Images -->
-    <section class="features">
-        <div class="feature">
-            <img src="https://akriviahcm.com/blog/wp-content/uploads/2024/08/Tips-to-Choose-the-Best-Expense-Management-Software-in-2024-2.jpg"
-                alt="Add Expense">
-            <h3>Add Expenses</h3>
-            <p>Quickly log your daily expenses with ease.</p>
-        </div>
-
-        <div class="feature">
-            <img src="https://www.sutisoft.com/wp-content/uploads/2025/02/infographic.png" alt="Reports">
-            <h3>View Reports</h3>
-            <p>Visualize your spending with clean reports.</p>
-        </div>
-
-        <div class="feature">
-            <img src="https://cdn.prod.website-files.com/64244f777752183940b98af6/642451b361e9570cd6c814a1_63d836d3a17bf828a91ff322_expense_management.png"
-                alt="Settings">
-            <h3>Customize</h3>
-            <p>Manage categories and preferences your way.</p>
-        </div>
-    </section>
 </main>
+
 
 <app-news></app-news>
 <app-about></app-about>

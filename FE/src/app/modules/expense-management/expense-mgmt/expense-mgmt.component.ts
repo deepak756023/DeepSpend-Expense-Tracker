@@ -162,6 +162,7 @@ export class ExpenseMgmtComponent implements OnInit {
   }
 
   exportCSV(): void {
+    this.dt.exportFilename = 'expense-manage-' + new Date().toString().slice(0, 24);
     this.dt.exportCSV();
   }
 

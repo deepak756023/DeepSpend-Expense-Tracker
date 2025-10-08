@@ -1,12 +1,13 @@
 .team-container {
-    padding: 20px;
-    background: #f9fafc;
-    font-family: Arial, sans-serif;
-    text-align: center;
+    padding: 40px;
+    background: linear-gradient(135deg, #f8fafc, #eef3f9);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
 }
 
 .section-title {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     margin-bottom: 10px;
     color: #222;
     border-left: 4px solid #0077ff;
@@ -15,7 +16,7 @@
 }
 
 .intro-text {
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     margin-bottom: 30px;
     color: #555;
 }

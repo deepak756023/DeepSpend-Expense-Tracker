@@ -1,71 +1,98 @@
+/* === About Section Layout === */
 .about-container {
-    padding: 20px;
-    background: #f9fafc;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+    padding: 40px;
+    background: linear-gradient(135deg, #f8fafc, #eef3f9);
+    font-family: 'Segoe UI', Arial, sans-serif;
     color: #333;
+    line-height: 1.6;
 }
 
+/* === Section Titles === */
 .section-title {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    color: #222;
-    border-left: 4px solid #0077ff;
+    font-size: 1.8rem;
+    margin-bottom: 18px;
+    color: #1a202c;
+    border-left: 5px solid #0077ff;
     padding-left: 10px;
+    font-weight: 600;
 }
 
+/* === About Content === */
 .about-content p {
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-    color: #555;
+    margin-bottom: 18px;
+    font-size: 1.05rem;
+    color: #444;
 }
 
-/* Mission & Vision */
+/* === Mission & Vision Section === */
 .mv-section {
-    margin: 30px 0;
+    margin: 40px 0;
 }
 
 .mv-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 25px;
 }
 
 .card {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .card h3 {
-    margin-bottom: 10px;
     color: #0077ff;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-weight: 600;
 }
 
-/* Products */
-.products-section ul {
-    list-style: disc;
-    padding-left: 20px;
+.card p {
     color: #444;
+    font-size: 1rem;
+    line-height: 1.6;
 }
 
-/* Core Values */
+/* === Core Values Section === */
+.values-section {
+    margin-top: 40px;
+}
+
 .values-list {
     list-style: none;
     padding: 0;
 }
 
 .values-list li {
-    padding: 8px 0;
+    padding: 10px 0;
     border-bottom: 1px dashed #ddd;
+    font-size: 1.05rem;
+    color: #333;
 }
 
-/* Why Choose Us */
+.values-list li:last-child {
+    border-bottom: none;
+}
+
+/* === Why Choose Us Section === */
 .choose-section {
-    margin-top: 30px;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.choose-section p {
+    font-size: 1.05rem;
+    color: #444;
+}
+
+/* === Responsive Design === */
+@media (max-width: 992px) {
+    .mv-grid {
+        grid-template-columns: 1fr;
+    }
 }

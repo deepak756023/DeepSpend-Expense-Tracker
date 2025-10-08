@@ -13,6 +13,8 @@ export class TopbarComponent {
     window.location.href = '/my-profile';
   }
 
+  usertype: string | null = localStorage.getItem('user_role');
+
   logout() {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('user_id');

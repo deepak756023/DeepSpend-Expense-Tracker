@@ -1,51 +1,57 @@
 .contact-container {
-    padding: 20px;
-    background: #f9fafc;
-    font-family: Arial, sans-serif;
+    padding: 40px;
+    background: linear-gradient(135deg, #f8fafc, #eef3f9);
+    font-family: 'Segoe UI', Arial, sans-serif;
     color: #333;
     line-height: 1.6;
 }
 
+/* Section Title */
 .section-title {
-    font-size: 1.7rem;
-    margin-bottom: 15px;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
     color: #222;
     border-left: 4px solid #0077ff;
     padding-left: 10px;
 }
 
+/* Header Section */
 .contact-header {
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
+.contact-header p {
+    font-size: 1.05rem;
+    color: #555;
+}
+
+/* Contact Details Grid */
 .contact-details {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 40px;
 }
 
+/* Contact Card */
 .contact-card {
     background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 25px;
+    border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .contact-card h3 {
     color: #0077ff;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    font-size: 1.3rem;
 }
 
 .contact-card p,
 .contact-card a {
     color: #444;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-decoration: none;
-}
-
-.contact-card a:hover {
-    text-decoration: underline;
 }
 
 /* Social Media */
@@ -63,21 +69,25 @@
     text-decoration: none;
 }
 
-.social-list li a:hover {
-    text-decoration: underline;
-}
-
 /* Map Section */
 .map-section {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .map-placeholder {
-    background: #eaeaea;
-    border: 2px dashed #bbb;
-    border-radius: 10px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 50px;
     text-align: center;
-    padding: 40px;
     color: #666;
     font-size: 1.2rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .contact-details {
+        grid-template-columns: 1fr;
+    }
 }
