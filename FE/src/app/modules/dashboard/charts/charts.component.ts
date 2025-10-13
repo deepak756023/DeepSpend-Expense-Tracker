@@ -20,9 +20,10 @@ export class ChartsComponent {
   barOptions: any;
   private chartValues: number[] = [];
   private barValues: number[] = [];
-  private allCategories = [
-    'FOOD', 'HEALTH', 'TRAVEL', 'EDUCATION', 'GIFT', 'BILLS', 'OTHERS'
-  ];
+  isDataAvailable: boolean = false;
+  isYearlyDataAvailable: boolean = false;
+  private allCategories: string[] = [];
+  allCategoryInSelectedMonth: string[] = [];
 
   private allMonths = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
@@ -30,9 +31,15 @@ export class ChartsComponent {
   date2: Date | undefined;
   today = new Date();
 
-  constructor(private chartService: ChartService) { }
+  constructor(private chartService: ChartService) {
+    this.chartService.getAllCategories(Number(localStorage.getItem('user_id'))).subscribe(res => {
+      this.allCategories = res.data;
+    });
+  }
 
   ngOnInit() {
+
+
 
     this.loadChartData(Number(localStorage.getItem('user_id')), this.today.getMonth() + 1, this.today.getFullYear());
 
@@ -46,7 +53,9 @@ export class ChartsComponent {
       year
     ).subscribe(res => {
       const data = res.data;
-      this.chartValues = this.allCategories.map(cat => data[cat] ?? 0);
+      this.isDataAvailable = Object.keys(data).length > 0;
+      this.allCategoryInSelectedMonth = this.allCategories.filter(cat => data[cat] > 0);
+      this.chartValues = this.allCategoryInSelectedMonth.map(cat => data[cat] ?? 0);
 
       this.buildPieChart();
     });
@@ -65,14 +74,20 @@ export class ChartsComponent {
   loadYearlyChartData(userId: number, year: number) {
     this.chartService.getYearlyExpensesChart(userId, year).subscribe(res => {
       const data = res.data;
-
       this.barValues = Array.from({ length: 12 }, (_, i) => {
+
         const month = (i + 1).toString();
         return data[month] ?? 0;
       });
-
+      this.sumupTheYearlyData();
       this.buildBarChart();
     });
+  }
+
+  sumupTheYearlyData(): number {
+    const total = this.barValues.reduce((acc, val) => acc + val, 0);
+    this.isYearlyDataAvailable = total > 0;
+    return total;
   }
 
   onYearChange() {
@@ -88,7 +103,7 @@ export class ChartsComponent {
     const textColor = documentStyle.getPropertyValue('--text-color');
 
     this.pieData = {
-      labels: this.allCategories,
+      labels: this.allCategoryInSelectedMonth,
       datasets: [
         {
           data: this.chartValues,
@@ -99,7 +114,11 @@ export class ChartsComponent {
             documentStyle.getPropertyValue('--p-orange-500'),
             documentStyle.getPropertyValue('--p-cyan-500'),
             documentStyle.getPropertyValue('--p-pink-500'),
-            documentStyle.getPropertyValue('--p-green-500')
+            documentStyle.getPropertyValue('--p-green-500'),
+            documentStyle.getPropertyValue('--p-blue-500'),
+            documentStyle.getPropertyValue('--p-yellow-500'),
+            documentStyle.getPropertyValue('--p-gray-500')
+
           ],
           hoverBackgroundColor: [
             documentStyle.getPropertyValue('--p-indigo-400'),
@@ -108,7 +127,10 @@ export class ChartsComponent {
             documentStyle.getPropertyValue('--p-orange-400'),
             documentStyle.getPropertyValue('--p-cyan-400'),
             documentStyle.getPropertyValue('--p-pink-400'),
-            documentStyle.getPropertyValue('--p-green-400')
+            documentStyle.getPropertyValue('--p-green-400'),
+            documentStyle.getPropertyValue('--p-blue-400'),
+            documentStyle.getPropertyValue('--p-yellow-400'),
+            documentStyle.getPropertyValue('--p-gray-400')
           ]
         }
       ]

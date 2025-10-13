@@ -19,14 +19,13 @@ public class Expense {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "category", nullable = false, length = 30)
-    private Category category;
+    private String category;
 
     @Column(name = "amount", nullable = false)
-    private int amount;
+    private double amount;
 
-    @Column(name = "description", length = 255)
+    @Column(name = "description", length = 500)
     private String description;
 
     @Column(name = "expense_date", nullable = false)
@@ -37,11 +36,11 @@ public class Expense {
     private LocalDateTime createdAt;
 
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
@@ -65,11 +64,11 @@ public class Expense {
         return user;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -96,7 +95,7 @@ public class Expense {
     public Expense() {
     }
 
-    public Expense(int amount, Category category, LocalDateTime createdAt, String description, LocalDate expenseDate, Long id, User user) {
+    public Expense(double amount, String category, LocalDateTime createdAt, String description, LocalDate expenseDate, Long id, User user) {
         this.amount = amount;
         this.category = category;
         this.createdAt = createdAt;

@@ -11,8 +11,8 @@ export interface User {
   username?: string;
   password?: string;
   role?: string;
-  createdAt?: String;
-  firstName?: String;
+  createdAt?: Date | string;
+  firstName?: string;
   lastName?: string;
   zipCode?: string;
   profession?: string;
@@ -47,7 +47,6 @@ export class UserManagementComponent implements OnInit {
   user: User = {};
   selectedUsers: User[] = [];
   submitted = false;
-  statuses: { label: string; value: string }[] = [];
   cols: Column[] = [];
   exportColumns: ExportColumn[] = [];
 
@@ -67,18 +66,20 @@ export class UserManagementComponent implements OnInit {
   loadDemoData(): void {
     this.userMngmntService.getUsers().subscribe({
       next: (data) => {
-        this.users = data || [];
+        this.users = (data || []).map(u => ({
+          ...u,
+          createdAt: u.createdAt ? new Date(u.createdAt) : undefined
+        }));
         this.cd.markForCheck();
       },
       error: (err) => {
         console.error('Error fetching users:', err);
-      },
+      }
     });
 
-
     this.cols = [
-      { field: 'firstName', header: 'FirstName' },
-      { field: 'lastName', header: 'LastName' },
+      { field: 'firstName', header: 'First Name' },
+      { field: 'lastName', header: 'Last Name' },
       { field: 'username', header: 'Email' },
       { field: 'phone', header: 'Contact No.' },
       { field: 'role', header: 'Role' },
@@ -89,9 +90,9 @@ export class UserManagementComponent implements OnInit {
     this.exportColumns = this.cols.map(col => ({ title: col.header, dataKey: col.field }));
   }
 
-  exportCSV(): void {
-    this.dt.exportFilename = 'user-list-' + new Date().toString().slice(0, 24);
-    this.dt.exportCSV();
+  onFilter(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.dt.filterGlobal(value, 'contains');
   }
 
   openNew(): void {
@@ -113,37 +114,37 @@ export class UserManagementComponent implements OnInit {
   saveUser(): void {
     this.submitted = true;
 
-    if (this.user.username?.trim()) {
-      if (this.user.id) {
-        const index = this.findIndexById(this.user.id!);
+    if (!this.user.username?.trim()) return;
 
-        this.userMngmntService.updateUser(this.user).subscribe({
-          next: (updatedUser) => {
-            if (index >= 0) {
-              this.users[index] = updatedUser;
-            }
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Successful',
-              detail: 'User Updated',
-              life: 3000,
-            });
-          },
-          error: (error) => {
-            console.error('Update error:', error);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Failed to update user',
-              life: 3000,
-            });
-          },
-        });
-      }
+    if (this.user.id) {
+      const index = this.findIndexById(this.user.id);
 
-      this.users = [...this.users];
-      this.userDialog = false;
-      this.user = {};
+      this.userMngmntService.updateUser(this.user).subscribe({
+        next: (updatedUser) => {
+          if (index >= 0) this.users[index] = {
+            ...updatedUser,
+            createdAt: updatedUser.createdAt ? new Date(updatedUser.createdAt) : undefined
+          };
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'User Updated',
+            life: 3000
+          });
+          this.users = [...this.users];
+          this.userDialog = false;
+          this.user = {};
+        },
+        error: (error) => {
+          console.error('Update error:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update user',
+            life: 3000
+          });
+        }
+      });
     }
   }
 
@@ -151,25 +152,23 @@ export class UserManagementComponent implements OnInit {
     return this.users.findIndex(u => u.id === id);
   }
 
-
-
+  /** Delete selected users */
   deleteSelectedUsers(): void {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete the selected users?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger',
       accept: () => {
         this.userMngmntService.deleteSelectedUsers(this.selectedUsers).subscribe({
           next: () => {
-            this.users = this.users.filter(
-              (p) => !this.selectedUsers.includes(p)
-            );
+            this.users = this.users.filter(u => !this.selectedUsers.includes(u));
             this.selectedUsers = [];
             this.messageService.add({
               severity: 'success',
               summary: 'Successful',
               detail: 'Users Deleted',
-              life: 3000,
+              life: 3000
             });
           },
           error: (error) => {
@@ -178,17 +177,12 @@ export class UserManagementComponent implements OnInit {
               severity: 'error',
               summary: 'Error',
               detail: 'Failed to delete users',
-              life: 3000,
+              life: 3000
             });
-          },
+          }
         });
-      },
+      }
     });
-  }
-
-  onFilter(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    this.dt.filterGlobal(value, 'contains');
   }
 
   deleteUser(user: User): void {
@@ -196,15 +190,16 @@ export class UserManagementComponent implements OnInit {
       message: `Are you sure you want to delete ${user.username}?`,
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger',
       accept: () => {
         this.userMngmntService.delete(user).subscribe({
           next: () => {
-            this.users = this.users.filter((u) => u.username !== user.username);
+            this.users = this.users.filter(u => u.username !== user.username);
             this.messageService.add({
               severity: 'success',
               summary: 'Successful',
               detail: 'User Deleted',
-              life: 3000,
+              life: 3000
             });
           },
           error: (error) => {
@@ -213,21 +208,21 @@ export class UserManagementComponent implements OnInit {
               severity: 'error',
               summary: 'Error',
               detail: 'Failed to delete user',
-              life: 3000,
+              life: 3000
             });
-          },
+          }
         });
-      },
+      }
     });
   }
 
-
-
+  exportCSV(): void {
+    this.dt.exportFilename = 'user-list-' + new Date().toString().slice(0, 24);
+    this.dt.exportCSV();
+  }
 
   createId(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     return Array.from({ length: 5 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
   }
-
-
 }

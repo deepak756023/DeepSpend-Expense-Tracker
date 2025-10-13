@@ -1,32 +1,73 @@
-/* Full screen container */
 .profile-container {
-    height: 100vh;
+    height: 85vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgb(220, 219, 219);
+    background: rgb(242, 239, 239);
 }
 
-/* Card styling */
 .profile-card {
     background: #fff;
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    max-width: 700px;
+    max-width: 600px;
     width: 100%;
 }
 
 /* Label section (span) */
 .input-group-text {
     min-width: 150px;
-    background: #f0f0f0;
-    font-weight: 600;
+    background: #f4f2f2;
+    font-weight: 500;
 }
 
 .form-control[disabled] {
     background: #fff !important;
-    font-weight: 500;
+    font-weight: 400;
     color: #333;
+}
+
+.tab-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0rem 1rem;
+    padding-top: .5rem;
+    border-bottom: 1px solid #30363d;
+    background-color: #fbfbfb;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.tab-item {
+    position: relative;
+    padding: 0.3rem 1rem;
+    padding-bottom: 10px;
+    color: #000000;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+    text-decoration: none;
+}
+
+.tab-item:hover {
+    color: #000000;
+}
+
+.tab-item.active {
+    font-weight: 600;
+    color: #000000;
+}
+
+.tab-item.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #f78166;
+    /* orange underline */
+    border-radius: 2px;
 }

@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
 import { FooterComponent } from "../../landing-page/footer/footer.component";
 import { TruncatePipe } from '../../../pipes/string-pipe/truncate.pipe';
+import { ChartService } from '../../dashboard/chart.service';
 
 export interface Expense {
   id?: number;
@@ -16,7 +17,7 @@ export interface Expense {
   category?: string;
   amount?: number;
   description?: string;
-  expenseDate?: string;
+  expenseDate?: Date | string; // <-- changed type
   createdAt?: string;
 }
 
@@ -33,12 +34,22 @@ interface ExportColumn {
 
 @Component({
   selector: 'app-expense-mgmt',
-  imports: [NgImportsModule, FormsModule, ReactiveFormsModule, CommonModule, TopbarComponent, FooterComponent, TruncatePipe],
+  imports: [
+    NgImportsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    TopbarComponent,
+    FooterComponent,
+    TruncatePipe
+  ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './expense-mgmt.component.html',
   styleUrl: './expense-mgmt.component.css'
 })
 export class ExpenseMgmtComponent implements OnInit {
+
+
 
   expenses: Expense[] = [];
   expense: Expense = {};
@@ -50,16 +61,23 @@ export class ExpenseMgmtComponent implements OnInit {
   isEditMode: boolean = false;
   editingExpenseId?: number;
   userId: number = Number(localStorage.getItem('user_id'));
+  charCount: number = 0;
+  allCategories: string[] = [];
+  defaultCategory: string[] = ['FOOD', 'HEALTH', 'TRAVEL', 'EDUCATION', 'GIFT', 'BILLS', 'INVEST'];
+  isAddNewCategory: boolean = false;
+  isDuplicateCategory: boolean = false;
 
   useForm: FormGroup = new FormGroup({
     user: new FormGroup({
       id: new FormControl(this.userId)
     }),
     category: new FormControl("", [Validators.required]),
-    amount: new FormControl(null, [Validators.required]),
+    newCategory: new FormControl(""),
+    amount: new FormControl(null, [Validators.required, Validators.min(0.000000001)]),
     description: new FormControl(""),
     expenseDate: new FormControl("", [Validators.required]),
   });
+
 
   @ViewChild('dt') dt!: Table;
 
@@ -67,11 +85,71 @@ export class ExpenseMgmtComponent implements OnInit {
     private expenseMgmtService: ExpenseMgmtService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private cd: ChangeDetectorRef
-  ) { }
+    private cd: ChangeDetectorRef,
+    private chartService: ChartService
+  ) {
+    this.getAllCategories();
+  }
 
   ngOnInit(): void {
     this.loadDemoData();
+  }
+
+  getAllCategories() {
+    this.chartService.getAllCategories(Number(localStorage.getItem('user_id'))).subscribe(res => {
+      this.allCategories = res.data;
+      this.allCategories = Array.from(new Set(this.allCategories.concat(this.defaultCategory)));
+    });
+
+  }
+
+
+
+  onCategoryChange(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    this.isAddNewCategory = selectedValue === 'OTHERS';
+
+    const newCategoryControl = this.useForm.get('newCategory');
+
+    if (this.isAddNewCategory) {
+      newCategoryControl?.setValidators([Validators.required, Validators.minLength(3)]);
+    } else {
+      newCategoryControl?.clearValidators();
+      newCategoryControl?.reset();
+      this.isDuplicateCategory = false;
+    }
+
+    newCategoryControl?.updateValueAndValidity();
+  }
+
+  checkDuplicateCategory() {
+    const newCat = this.useForm.get('newCategory')?.value?.trim().toLowerCase();
+    this.isDuplicateCategory = this.allCategories
+      .map(c => c.toLowerCase())
+      .includes(newCat);
+
+    if (this.isDuplicateCategory) {
+      this.useForm.get('newCategory')?.setErrors({ duplicate: true });
+    } else {
+      const errors = this.useForm.get('newCategory')?.errors;
+      if (errors) delete errors['duplicate'];
+      if (Object.keys(errors || {}).length === 0) {
+        this.useForm.get('newCategory')?.setErrors(null);
+      }
+    }
+  }
+
+
+
+  updateCharCount() {
+    const descriptionControl = this.useForm.get('description');
+    this.charCount = descriptionControl?.value ? descriptionControl.value.length : 0;
+  }
+
+  onClear() {
+    this.useForm.reset({ user: { id: this.userId } });
+    this.isEditMode = false;
+    this.isAddNewCategory = false;
   }
 
   editExpense(expense: Expense) {
@@ -83,7 +161,7 @@ export class ExpenseMgmtComponent implements OnInit {
       category: expense.category,
       amount: expense.amount,
       description: expense.description,
-      expenseDate: expense.expenseDate
+      expenseDate: this.formatDateForInput(expense.expenseDate)
     });
   }
 
@@ -91,8 +169,12 @@ export class ExpenseMgmtComponent implements OnInit {
     if (this.useForm.valid) {
       const payload = {
         ...this.useForm.value,
-        createdAt: new Date().toISOString().slice(0, 19).replace('T', ' ')
+        createdAt: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        category: this.isAddNewCategory
+          ? this.useForm.value.newCategory.toUpperCase()
+          : this.useForm.value.category,
       };
+
 
       if (this.isEditMode && this.editingExpenseId) {
         this.expenseMgmtService.updateExpense(this.editingExpenseId, payload).subscribe({
@@ -118,6 +200,7 @@ export class ExpenseMgmtComponent implements OnInit {
           }
         });
       } else {
+        delete payload.newCategory;
         this.expenseMgmtService.addExpense(payload).subscribe({
           next: (res) => {
             this.messageService.add({
@@ -129,8 +212,11 @@ export class ExpenseMgmtComponent implements OnInit {
             this.useForm.reset({ user: { id: this.userId } });
 
             if (res.data) {
+              res.data.expenseDate = new Date(res.data.expenseDate);
               this.expenses.unshift(res.data);
             }
+            this.isAddNewCategory = false;
+            this.getAllCategories();
           },
           error: () => {
             this.messageService.add({
@@ -143,11 +229,16 @@ export class ExpenseMgmtComponent implements OnInit {
         });
       }
     }
+
   }
 
+  /** convert expenseDate to Date objects for filteration purpose */
   loadDemoData(): void {
     this.expenseMgmtService.getExpenses(this.userId).subscribe((data) => {
-      this.expenses = data;
+      this.expenses = data.map((e: any) => ({
+        ...e,
+        expenseDate: e.expenseDate ? new Date(e.expenseDate) : null
+      }));
       this.cd.markForCheck();
     });
 
@@ -161,6 +252,12 @@ export class ExpenseMgmtComponent implements OnInit {
     this.exportColumns = this.cols.map(col => ({ title: col.header, dataKey: col.field }));
   }
 
+  formatDateForInput(date: any): string | null {
+    if (!date) return null;
+    const d = new Date(date);
+    return d.toISOString().split('T')[0];
+  }
+
   exportCSV(): void {
     this.dt.exportFilename = 'expense-manage-' + new Date().toString().slice(0, 24);
     this.dt.exportCSV();
@@ -168,9 +265,10 @@ export class ExpenseMgmtComponent implements OnInit {
 
   deleteSelectedExpenses(): void {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected products?',
+      message: 'Are you sure you want to delete the selected expenses?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger',
       accept: () => {
         this.expenseMgmtService.deleteSelectedUsers(this.selectedExpenses).subscribe({
           next: () => {
@@ -179,7 +277,7 @@ export class ExpenseMgmtComponent implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Successful',
-              detail: 'Products Deleted',
+              detail: 'Expenses Deleted',
               life: 3000
             });
           },
@@ -187,7 +285,7 @@ export class ExpenseMgmtComponent implements OnInit {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Failed to delete expense',
+              detail: 'Failed to delete expenses',
               life: 3000
             });
           }
@@ -198,9 +296,10 @@ export class ExpenseMgmtComponent implements OnInit {
 
   deleteExpense(expense: Expense): void {
     this.confirmationService.confirm({
-      message: `Are you sure you want to delete?`,
+      message: `Are you sure you want to delete this expense?`,
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger',
       accept: () => {
         this.expenseMgmtService.delete(expense).subscribe({
           next: () => {

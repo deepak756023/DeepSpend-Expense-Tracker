@@ -19,7 +19,8 @@
     <p-table #dt [value]="users" [rows]="10" [columns]="cols" [paginator]="true"
         [globalFilterFields]="['firstName','lastName','username','profession']" [tableStyle]="{ 'min-width': '75rem' }"
         [(selection)]="selectedUsers" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 50]">
 
         <!-- Caption with title and search on right -->
         <ng-template #caption>
@@ -43,18 +44,24 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox />
                 </th>
-                <th pSortableColumn="firstName" style="min-width:10rem">
+                <th pSortableColumn="firstName" style="min-width:10rem;  position: relative;">
                     First Name
                     <p-sortIcon field="firstName" />
+                    <p-columnFilter type="text" field="firstName" display="menu" class="ml-auto"
+                        style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" />
                 </th>
 
-                <th pSortableColumn="lastName" style="min-width: 10rem">
+                <th pSortableColumn="lastName" style="min-width: 10rem;  position: relative;">
                     Last Name
                     <p-sortIcon field="lastName" />
+                    <p-columnFilter type="text" field="lastName" display="menu" class="ml-auto"
+                        style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" />
                 </th>
-                <th pSortableColumn="username" style="min-width:10rem">
+                <th pSortableColumn="username" style="min-width:20rem;  position: relative;">
                     UserName
                     <p-sortIcon field="username" />
+                    <p-columnFilter type="text" field="username" display="menu" class="ml-auto"
+                        style="position: absolute; right: 10%; top: 50%; transform: translateY(-50%);" />
                 </th>
                 <th pSortableColumn="phone" style="min-width: 10rem">
                     Contacts
@@ -64,13 +71,18 @@
                     Role
                     <p-sortIcon field="role" />
                 </th>
-                <th pSortableColumn="profession" style="min-width: 10rem">
+                <th pSortableColumn="profession" style="min-width: 15rem;  position: relative;">
                     Profession
                     <p-sortIcon field="profession" />
+                    <p-columnFilter type="text" field="profession" display="menu" class="ml-auto"
+                        style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" />
                 </th>
-                <th pSortableColumn="createdAt" style="min-width: 10rem">
+                <th pSortableColumn="createdAt" style="min-width: 12rem;  position: relative;">
                     CreatedAt
                     <p-sortIcon field="createdAt" />
+                    <p-columnFilter type="date" field="createdAt" display="menu" matchMode="dateIs"
+                        style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                    </p-columnFilter>
                 </th>
                 <th style="min-width: 10rem; text-align: center;">
                     Actions
@@ -90,7 +102,7 @@
                 <td style="min-width: 10rem">{{ user.phone }}</td>
                 <td style="min-width: 10rem">{{ user.role | lowercase }}</td>
                 <td style="min-width: 10rem">{{ user.profession }}</td>
-                <td style="min-width: 10rem">{{ user.createdAt }}</td>
+                <td style="min-width: 10rem">{{ user.createdAt | date: 'd/M/yy, h:mm a'}}</td>
                 <!-- <td>{{ user.price | currency: 'USD' }}</td> -->
                 <td>
                     <p-button icon="pi pi-pencil" styleClass="mx-4" [rounded]="true" [text]="true"

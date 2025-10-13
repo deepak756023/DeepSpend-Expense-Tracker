@@ -3,7 +3,7 @@ import { TopbarComponent } from "../topbar/topbar.component";
 import { FooterComponent } from "../footer/footer.component";
 import { User } from '../../user-management/user-management/user-management.component';
 import { HttpClient } from '@angular/common/http';
-import { NgIf } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 interface ApiResponse<T> {
@@ -14,7 +14,7 @@ interface ApiResponse<T> {
 
 @Component({
   selector: 'app-profile',
-  imports: [TopbarComponent, FooterComponent, NgIf, FormsModule],
+  imports: [TopbarComponent, FooterComponent, NgIf, FormsModule, DatePipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -24,11 +24,21 @@ export class ProfileComponent implements OnInit {
 
   user: User = {};
   backupUser: User = {};
+  activeTab: string = 'Overview';
+  userRole: string;
 
-  constructor(private http: HttpClient) { }
+
+
+  constructor(private http: HttpClient) {
+    this.userRole = localStorage.getItem('user_role') || '';
+  }
 
   ngOnInit() {
     this.loadUserDetails();
+  }
+
+  setActiveTab(tab: string): void {
+    this.activeTab = tab;
   }
 
   update() {
