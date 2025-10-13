@@ -14,9 +14,14 @@
             </div>
 
             <div class="w-100  d-flex justify-content-center align-items-center"
-                style="max-width: 500px; height: 500px; margin-top: 50px;">
+                style="max-width: 500px; height: 500px; margin-top: 50px;" *ngIf="isDataAvailable">
                 <p-chart type="pie" [data]="pieData" [options]="pieOptions" style="width: 100%; height: auto; ">
                 </p-chart>
+            </div>
+
+            <div class="w-100  d-flex justify-content-center align-items-center"
+                style="max-width: 500px; height: 500px; margin-top: 50px;" *ngIf="!isDataAvailable">
+                <p>No data available for the selected Month.</p>
             </div>
 
         </div>
@@ -28,9 +33,14 @@
             </div>
 
             <div class="w-100 d-flex justify-content-center align-items-center"
-                style="max-width: 600px; height: 500px; margin-top: 50px;">
+                style="max-width: 600px; height: 500px; margin-top: 50px;" *ngIf="isYearlyDataAvailable">
                 <p-chart type="bar" [data]="barData" [options]="barOptions"
                     style="width: 100%; height: auto;"></p-chart>
+            </div>
+            <div class="w-100  d-flex justify-content-center align-items-center"
+                style="max-width: 500px; height: 500px; margin-top: 50px; margin-left: 10%;"
+                *ngIf="!isYearlyDataAvailable">
+                <p>No data available for the selected Year.</p>
             </div>
         </div>
 

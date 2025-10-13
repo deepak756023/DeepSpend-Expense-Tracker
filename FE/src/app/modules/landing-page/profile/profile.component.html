@@ -1,8 +1,20 @@
 <app-topbar></app-topbar>
-<div class="profile-container">
+
+
+<div class="tab-container">
+    <a class="tab-item" [class.active]="activeTab === 'Overview'" (click)="setActiveTab('Overview')">
+        Overview
+    </a>
+
+    <a class="tab-item" [class.active]="activeTab === 'Role'" (click)="setActiveTab('Role')">
+        Role
+    </a>
+</div>
+
+<div class="profile-container" *ngIf="activeTab === 'Overview'">
     <div class="profile-card">
         <div class="profile-header text-center mb-2">
-            <h2 class="mb-3">My Profile</h2>
+            <h2 class="mb-3">Profile</h2>
         </div>
 
         <div class="input-group input-group-md mb-3">
@@ -30,18 +42,16 @@
             <input type="text" class="form-control" [(ngModel)]="user.profession" [disabled]="!isUpdateMode">
         </div>
 
-        <div class="input-group input-group-md mb-3">
-            <span class="input-group-text">Role</span>
-            <input type="text" class="form-control" [value]="user.role" disabled>
-        </div>
 
         <div class="input-group input-group-md mb-3">
-            <span class="input-group-text">createdOn</span>
-            <input type="text" class="form-control" [value]="user.createdAt" disabled>
+            <span class="input-group-text">Created On</span>
+            <input type="text" class="form-control" [value]="user.createdAt?.toString() | date:'d/M/yy, h:mm a'"
+                disabled>
         </div>
+
 
         <div class="d-grid gap-2" *ngIf="!isUpdateMode">
-            <button type="button" class="btn btn-primary" (click)="update()">Update</button>
+            <button type="button" class="btn btn-primary" (click)="update()">Update Profile Details</button>
         </div>
 
         <div class="d-grid gap-2" *ngIf="isUpdateMode">
@@ -50,4 +60,14 @@
         </div>
     </div>
 </div>
+
+<div class="profile-container" *ngIf="activeTab === 'Role'">
+    <div class="profile-card">
+        <div class="profile-header text-center mb-2">
+            <h2 class="m-3">{{userRole}}</h2>
+
+        </div>
+    </div>
+</div>
+
 <app-footer></app-footer>

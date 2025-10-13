@@ -47,7 +47,7 @@
 
             </div>
 
-            <button type="button" class="btn text-color mx-2">{{usertype}}</button>
+            <button type="button" class="btn text-color mx-2" *ngIf="userRole();">{{usertype}}</button>
 
             <div class="dropdown" *ngIf="userRole();">
                 <button type="button" class="btn dropbtn  btn-custom-border">

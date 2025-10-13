@@ -84,7 +84,7 @@ public class ExpenseService {
     }
 
 
-    public Map<Category, Double> getMonthlyExpensesChart(Long userId, int month, int year) {
+    public Map<String, Double> getMonthlyExpensesChart(Long userId, int month, int year) {
         // Suppose you have a method that fetches all expenses
         List<Expense> allExpenses = getAllUsersExpenses();
 
@@ -114,6 +114,14 @@ public class ExpenseService {
             result.put(month, monthTotals.getOrDefault(month, 0.0));
         }
         return result;
+    }
+
+    public String[] getAllCategories(Long id) {
+        List<Expense> expenses = this.expenseRepo.findByUserId(id);
+        return expenses.stream()
+                .map(Expense::getCategory)
+                .distinct()
+                .toArray(String[]::new);
     }
 
 }

@@ -2,77 +2,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Left Section (Form) -->
-        <div class="col-md-3 mt-2">
-            <form [formGroup]="useForm" (ngSubmit)="onSubmit()" class="form-section card p-3 card-border"
-                style="background-color:#f8f9fa;">
 
-                <h5 class="mb-3" style="text-align: center; margin-top: 30px;">
-                    {{ isEditMode ? 'Update Expense' : 'Add Expense' }}
-                </h5>
-
-                <!-- Category -->
-                <div class="mb-3">
-                    <label for="sel2" class="form-label">Select Category:</label>
-                    <select class="form-select" id="sel2" formControlName="category">
-                        <option value="" disabled selected>Choose a category</option>
-                        <option value="FOOD">Food</option>
-                        <option value="HEALTH">Health</option>
-                        <option value="TRAVEL">Travel</option>
-                        <option value="EDUCATION">Education</option>
-                        <option value="GIFT">Gift</option>
-                        <option value="BILLS">Bills</option>
-                        <option value="OTHERS">Others</option>
-                    </select>
-
-                    <div *ngIf="useForm.get('category')?.invalid && useForm.get('category')?.touched"
-                        class="text-danger small">
-                        Category is required
-                    </div>
-                </div>
-
-
-                <!-- Amount -->
-                <div class="mb-3">
-                    <label class="form-label">Amount:</label>
-                    <div class="input-group">
-                        <span class="input-group-text">₹</span>
-                        <input type="number" class="form-control" placeholder="Enter amount" formControlName="amount">
-                    </div>
-                    <div *ngIf="useForm.get('amount')?.invalid && useForm.get('amount')?.touched"
-                        class="text-danger small">
-                        Amount is required
-                    </div>
-                </div>
-
-                <!-- Date Picker -->
-                <div class="mb-3">
-                    <label class="form-label">Date:</label>
-                    <input type="date" class="form-control" formControlName="expenseDate">
-                    <div *ngIf="useForm.get('expenseDate')?.invalid && useForm.get('expenseDate')?.touched"
-                        class="text-danger small">
-                        Date is required
-                    </div>
-                </div>
-
-                <!-- Description -->
-                <div class="mb-3">
-                    <label for="comment" class="form-label">Description:</label>
-                    <textarea class="form-control" rows="6" id="comment" formControlName="description"
-                        placeholder="Enter description"></textarea>
-                </div>
-
-                <!-- Buttons -->
-                <div class="d-flex justify-content-center gap-3">
-                    <button type="button" class="btn btn-secondary" (click)="useForm.reset()">Clear</button>
-                    <button type="submit" class="btn btn-primary" [disabled]="useForm.invalid">
-                        {{ isEditMode ? 'Update' : 'Add Expense' }}
-                    </button>
-                </div>
-
-            </form>
-
-        </div>
 
 
         <div class="col-md-9 mt-2" style="padding-left: 10px; padding-right: 0px;">
@@ -94,10 +24,10 @@
                     </ng-template>
                 </p-toolbar>
 
-                <p-table #dt [value]="expenses" [rows]="10" [columns]="cols" [paginator]="true"
-                    [(selection)]="selectedExpenses" [rowHover]="true" dataKey="id"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                    [showCurrentPageReport]="true">
+                <p-table #dt [value]="expenses" [rows]="10" [columns]="cols" [paginator]="true" [scrollable]="true"
+                    [(selection)]="selectedExpenses" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10, 25, 50]"
+                    scrollHeight="90vh" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [showCurrentPageReport]="true" [filterDelay]="0">
 
 
 
@@ -107,22 +37,34 @@
                             <th style="width: 3rem">
                                 <p-tableHeaderCheckbox />
                             </th>
-                            <th pSortableColumn="expenseDate" style="min-width:10rem">
+                            <th pSortableColumn="expenseDate" style="min-width:10rem; position: relative;">
                                 Expense Date
-                                <p-sortIcon field="expenseDate" />
+                                <p-sortIcon field="expenseDate"></p-sortIcon>
+                                <p-columnFilter type="date" field="expenseDate" display="menu" matchMode="dateIs"
+                                    style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                                </p-columnFilter>
                             </th>
 
-                            <th pSortableColumn="category" style="min-width: 10rem">
+
+                            <th pSortableColumn="category" style="min-width: 10rem;  position: relative;">
                                 Category
                                 <p-sortIcon field="category" />
+                                <p-columnFilter type="text" field="category" display="menu" class="ml-auto"
+                                    style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" />
                             </th>
-                            <th pSortableColumn="amount" style="min-width:10rem">
+                            <th pSortableColumn="amount" style="min-width:10rem; position: relative;">
                                 Amount
                                 <p-sortIcon field="amount" />
+                                <p-columnFilter type="numeric" field="amount" display="menu"
+                                    placeholder="Filter by amount"
+                                    style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                                </p-columnFilter>
                             </th>
-                            <th pSortableColumn="description" style="min-width: 10rem">
+                            <th pSortableColumn="description" style="min-width: 10rem; position: relative;">
                                 Description
                                 <p-sortIcon field="description" />
+                                <p-columnFilter type="text" field="description" display="menu" class="ml-auto"
+                                    style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" />
                             </th>
                             <th style="min-width: 10rem; text-align: center;">
                                 Actions
@@ -136,9 +78,9 @@
                             <td style="width: 3rem">
                                 <p-tableCheckbox [value]="expense" />
                             </td>
-                            <td style="min-width: 10rem">{{ expense.expenseDate }}</td>
+                            <td style="min-width: 10rem">{{ expense.expenseDate | date: 'MM/dd/yyyy'}}</td>
                             <td style="min-width: 10rem">{{ expense.category }}</td>
-                            <td style="min-width: 10rem">{{ expense.amount }}</td>
+                            <td style="min-width: 10rem">{{ expense.amount | number: '1.2-2' }}</td>
                             <td style="min-width: 10rem" [title]="expense.description">
                                 {{ expense.description | truncate:30 }}
                             </td>
@@ -170,6 +112,115 @@
 
                 <p-confirmDialog [style]="{ width: '450px' }" />
             </div>
+        </div>
+
+        <!-- Right Section (Form) -->
+        <div class="col-md-3 mt-2">
+
+            <form [formGroup]="useForm" (ngSubmit)="onSubmit()" class="form-section card p-3 card-border"
+                style="background-color:#f8f9fa;">
+
+
+                <h5 class="mb-3" style="text-align: center; margin-top: 30px;">
+                    {{ isEditMode ? 'Update Expense' : 'Add Expense' }}
+                </h5>
+
+                <!-- Category -->
+                <div class="mb-3">
+                    <label for="sel2" class="form-label">Select Category:</label>
+                    <select class="form-select" id="sel2" formControlName="category"
+                        (change)="onCategoryChange($event)">
+                        <option value="" disabled selected>Choose a category</option>
+                        <option *ngFor="let category of allCategories" [value]="category">
+                            {{ category }}
+                        </option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+
+                    <div *ngIf="useForm.get('category')?.invalid && useForm.get('category')?.touched"
+                        class="text-danger small">
+                        Category is required
+                    </div>
+                </div>
+
+                <!-- show this when "Others" selected -->
+                <div *ngIf="isAddNewCategory" class="mb-3">
+                    <label class="form-label">New Category:</label>
+                    <input type="text" class="form-control" placeholder="Enter new category"
+                        formControlName="newCategory" (input)="checkDuplicateCategory()" />
+
+                    <!-- Validation errors -->
+                    <div *ngIf="useForm.get('newCategory')?.touched && useForm.get('newCategory')?.invalid"
+                        class="text-danger small">
+                        <div *ngIf="useForm.get('newCategory')?.errors?.['required']">
+                            New Category is required
+                        </div>
+                        <div *ngIf="useForm.get('newCategory')?.errors?.['minlength']">
+                            New Category must be at least 3 characters long
+                        </div>
+                    </div>
+
+                    <!-- Duplicate category message -->
+                    <div *ngIf="isDuplicateCategory" class="text-danger small">
+                        This category already exists!
+                    </div>
+                </div>
+
+
+
+
+
+                <!-- Amount -->
+                <div class="mb-3">
+                    <label class="form-label">Amount:</label>
+                    <div class="input-group">
+                        <span class="input-group-text">₹</span>
+                        <input type="number" class="form-control" placeholder="Enter amount" formControlName="amount">
+                    </div>
+                    <div *ngIf="useForm.get('amount')?.touched && useForm.get('amount')?.invalid"
+                        class="text-danger small">
+                        <div *ngIf="useForm.get('amount')?.errors?.['required']">
+                            Amount is required
+                        </div>
+                        <div *ngIf="useForm.get('amount')?.errors?.['min']">
+                            Amount must be greater than 0
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Date Picker -->
+                <div class="mb-3">
+                    <label class="form-label">Date:</label>
+                    <input type="date" class="form-control" formControlName="expenseDate">
+                    <div *ngIf="useForm.get('expenseDate')?.invalid && useForm.get('expenseDate')?.touched"
+                        class="text-danger small">
+                        Date is required
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Description:</label>
+                    <textarea class="form-control" rows="6" id="comment" formControlName="description" maxlength="500"
+                        placeholder="Enter description" (input)="updateCharCount()"></textarea>
+                    <div class="text-end text-muted mt-1">
+                        {{charCount}} / 500
+                    </div>
+                </div>
+
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-center gap-3">
+                    <button type="button" class="btn btn-secondary" (click)="onClear()">Clear</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="useForm.invalid">
+                        {{ isEditMode ? 'Update' : 'Add Expense' }}
+                    </button>
+                </div>
+
+
+            </form>
+
         </div>
     </div>
 </div>
