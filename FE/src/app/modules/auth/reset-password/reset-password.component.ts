@@ -29,7 +29,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   checkCurrentPageRoute(url: String) {
-    if (url && url == "/create-password") {
+    if (url && url.indexOf("/create-password") > -1) {
       this.isCreatePwd = true;
     } else {
       this.isCreatePwd = false;

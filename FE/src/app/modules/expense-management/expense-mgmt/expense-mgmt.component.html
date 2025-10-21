@@ -1,6 +1,4 @@
-<app-topbar></app-topbar>
-
-<div class="container-fluid">
+<div class="container-fluid" style="padding-bottom: 200px;">
     <div class="row">
 
 
@@ -185,6 +183,9 @@
                         <div *ngIf="useForm.get('amount')?.errors?.['min']">
                             Amount must be greater than 0
                         </div>
+                        <div *ngIf="useForm.get('amount')?.errors?.['max']">
+                            Amount must be lesser than 100000000
+                        </div>
                     </div>
 
                 </div>
@@ -224,5 +225,3 @@
         </div>
     </div>
 </div>
-
-<app-footer></app-footer>

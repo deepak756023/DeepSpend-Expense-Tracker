@@ -7,6 +7,8 @@ import { jwtDecode } from 'jwt-decode';
 
 export interface JwtPayload {
   id: number;
+  firstName: string;
+  lastName: string;
   role: string;
   sub: string;
   iat: number;
@@ -47,7 +49,7 @@ export class LoginComponent implements OnInit {
     setTimeout(() => {
       this.successMsg = "";
       this.isSuccess = false;
-      this.router.navigate(['/home']);
+      this.router.navigate(['/layout/home']);
     }, 500);
   }
 
@@ -91,6 +93,8 @@ export class LoginComponent implements OnInit {
             localStorage.setItem("jwtToken", response.data);
 
             const decoded = jwtDecode<JwtPayload>(response.data);
+            localStorage.setItem("firstName", decoded.firstName);
+            localStorage.setItem("lastName", decoded.lastName);
             localStorage.setItem("user_id", decoded.id.toString());
             localStorage.setItem("user_role", decoded.role);
             localStorage.setItem("exp", decoded.exp.toString());

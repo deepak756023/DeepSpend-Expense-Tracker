@@ -6,8 +6,6 @@ import { User } from '../../user-management/user-management/user-management.comp
 import { ExpenseMgmtService } from '../expense-mgmt.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
-import { FooterComponent } from "../../landing-page/footer/footer.component";
 import { TruncatePipe } from '../../../pipes/string-pipe/truncate.pipe';
 import { ChartService } from '../../dashboard/chart.service';
 
@@ -17,7 +15,7 @@ export interface Expense {
   category?: string;
   amount?: number;
   description?: string;
-  expenseDate?: Date | string; // <-- changed type
+  expenseDate?: Date | string;
   createdAt?: string;
 }
 
@@ -39,8 +37,6 @@ interface ExportColumn {
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    TopbarComponent,
-    FooterComponent,
     TruncatePipe
   ],
   providers: [MessageService, ConfirmationService],
@@ -73,7 +69,7 @@ export class ExpenseMgmtComponent implements OnInit {
     }),
     category: new FormControl("", [Validators.required]),
     newCategory: new FormControl(""),
-    amount: new FormControl(null, [Validators.required, Validators.min(0.000000001)]),
+    amount: new FormControl(null, [Validators.required, Validators.min(0.000000001), Validators.max(99999999)]),
     description: new FormControl(""),
     expenseDate: new FormControl("", [Validators.required]),
   });

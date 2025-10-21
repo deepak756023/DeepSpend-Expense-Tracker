@@ -80,7 +80,7 @@ public class UserService {
             throw new NoSuchUserExistWithThisMailIdException("No user present with this Username : " + username);
         }
 
-        if(!user.isActive()){
+        if(user.getPassword()!=null &&!user.isActive()){
             throw new AccountDeactivatedException("Your account is deactivated, please contact admin");
         }
 

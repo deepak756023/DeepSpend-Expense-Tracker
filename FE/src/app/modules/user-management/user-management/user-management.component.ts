@@ -3,8 +3,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { UserMngmntService } from '../service/user-mngmnt.service';
 import { NgImportsModule } from '../../../ngimports';
 import { Table } from 'primeng/table';
-import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
-import { FooterComponent } from "../../landing-page/footer/footer.component";
+import { HttpClient } from '@angular/common/http';
+import { jwtDecode } from 'jwt-decode';
+import { JwtPayload } from '../../auth/login/login.component';
+import { Router } from '@angular/router';
+
 
 export interface User {
   id?: number;
@@ -35,7 +38,7 @@ interface ExportColumn {
 
 @Component({
   selector: 'app-user-management',
-  imports: [NgImportsModule, TopbarComponent, FooterComponent],
+  imports: [NgImportsModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.css'
@@ -56,7 +59,8 @@ export class UserManagementComponent implements OnInit {
     private userMngmntService: UserMngmntService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -121,6 +125,10 @@ export class UserManagementComponent implements OnInit {
 
       this.userMngmntService.updateUser(this.user).subscribe({
         next: (updatedUser) => {
+          if (this.user.id == Number(localStorage.getItem("user_id"))) {
+            this.refreshAccountInfo(updatedUser);
+          }
+
           if (index >= 0) this.users[index] = {
             ...updatedUser,
             createdAt: updatedUser.createdAt ? new Date(updatedUser.createdAt) : undefined
@@ -225,4 +233,20 @@ export class UserManagementComponent implements OnInit {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     return Array.from({ length: 5 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
   }
+
+  refreshAccountInfo(updatedUser: User): void {
+    localStorage.setItem("firstName", updatedUser.firstName || '');
+    localStorage.setItem("lastName", updatedUser.lastName || '');
+    localStorage.setItem("user_id", (updatedUser.id || '').toString());
+    localStorage.setItem("user_role", updatedUser.role || '');
+
+    if (updatedUser.role !== "ADMIN") {
+      this.router.navigate(['/layout/home']).then(() => {
+        location.reload();
+      });
+      return;
+    }
+    location.reload();
+  }
+
 }

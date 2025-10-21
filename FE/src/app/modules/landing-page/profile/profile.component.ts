@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { TopbarComponent } from "../topbar/topbar.component";
-import { FooterComponent } from "../footer/footer.component";
 import { User } from '../../user-management/user-management/user-management.component';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { NgImportsModule } from '../../../ngimports';
+import { Toast } from "primeng/toast";
 
 interface ApiResponse<T> {
   statusCode: number;
@@ -14,7 +15,8 @@ interface ApiResponse<T> {
 
 @Component({
   selector: 'app-profile',
-  imports: [TopbarComponent, FooterComponent, NgIf, FormsModule, DatePipe],
+  imports: [NgIf, FormsModule, DatePipe, Toast],
+  providers: [MessageService],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -29,8 +31,9 @@ export class ProfileComponent implements OnInit {
 
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private messageService: MessageService,) {
     this.userRole = localStorage.getItem('user_role') || '';
+
   }
 
   ngOnInit() {
@@ -52,8 +55,14 @@ export class ProfileComponent implements OnInit {
   }
 
   save() {
+    // Validate first name
     if (!this.user.firstName || this.user.firstName.trim() === "") {
-      alert("First name cannot be empty!");
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation Error',
+        detail: 'First name cannot be empty!',
+        life: 3000
+      });
       return;
     }
 
@@ -65,16 +74,36 @@ export class ProfileComponent implements OnInit {
         .subscribe({
           next: (res) => {
             this.user = res;
-            alert("Profile updated successfully!");
+
+            // Update localStorage
+            localStorage.setItem("firstName", this.user.firstName || '');
+            localStorage.setItem("lastName", this.user.lastName || '');
+
             this.isUpdateMode = false;
+
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Profile updated successfully!',
+              life: 3000
+            });
+
+            // Optionally reload page if needed
+            // location.reload();
           },
           error: (err) => {
             console.error("Error updating user:", err);
-            alert("Failed to update profile!");
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to update profile!',
+              life: 3000
+            });
           }
         });
     }
   }
+
 
   loadUserDetails() {
     const id = localStorage.getItem('user_id');
