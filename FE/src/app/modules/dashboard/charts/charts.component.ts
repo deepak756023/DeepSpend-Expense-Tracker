@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { NgImportsModule } from '../../../ngimports';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { FluidModule } from 'primeng/fluid';
-import { Subscription } from 'rxjs';
 import { ChartService } from '../chart.service';
-import { TopbarComponent } from "../../landing-page/topbar/topbar.component";
-import { FooterComponent } from "../../landing-page/footer/footer.component";
+
 
 @Component({
   selector: 'app-charts',
-  imports: [NgImportsModule, CommonModule, FluidModule, TopbarComponent, FooterComponent],
+  imports: [NgImportsModule, CommonModule, FluidModule],
   templateUrl: './charts.component.html',
   styleUrl: './charts.component.css'
 })
@@ -55,7 +53,7 @@ export class ChartsComponent {
       const data = res.data;
       this.isDataAvailable = Object.keys(data).length > 0;
       this.allCategoryInSelectedMonth = this.allCategories.filter(cat => data[cat] > 0);
-      this.chartValues = this.allCategoryInSelectedMonth.map(cat => data[cat] ?? 0);
+      this.chartValues = this.allCategoryInSelectedMonth.map(cat => Number(data[cat].toFixed(0)) ?? 0);
 
       this.buildPieChart();
     });

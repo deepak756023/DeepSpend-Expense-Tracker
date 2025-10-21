@@ -36,12 +36,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults()) // ✅ enable CORS and use your WebConfig bean
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/findUserNameFromToken/**", "/admin/**").hasRole("ADMIN")
+                        .requestMatchers( "/admin/**").hasRole("ADMIN")
                         .requestMatchers( "/welcome/**",  "/user/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(
                                 "/auth/register/**", "/auth/login/**",
                                 "/auth/forgot-password/**"
-                                ,"/auth/reset-password/**"
+                                ,"/auth/reset-password/**", "/findUserNameFromToken/**"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())

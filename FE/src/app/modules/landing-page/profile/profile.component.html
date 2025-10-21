@@ -1,5 +1,5 @@
-<app-topbar></app-topbar>
-
+<!-- Add Toast Component for PrimeNG messages -->
+<p-toast />
 
 <div class="tab-container">
     <a class="tab-item" [class.active]="activeTab === 'Overview'" (click)="setActiveTab('Overview')">
@@ -18,37 +18,35 @@
         </div>
 
         <div class="input-group input-group-md mb-3">
-            <span class="input-group-text">username</span>
+            <span class="input-group-text">Username</span>
             <input type="text" class="form-control" [value]="user.username" disabled>
         </div>
 
         <div class="input-group input-group-md mb-3">
-            <span class="input-group-text">firstname</span>
+            <span class="input-group-text">First Name</span>
             <input type="text" class="form-control" [(ngModel)]="user.firstName" [disabled]="!isUpdateMode" required>
         </div>
 
         <div class="input-group input-group-md mb-3">
-            <span class="input-group-text">lastname</span>
+            <span class="input-group-text">Last Name</span>
             <input type="text" class="form-control" [(ngModel)]="user.lastName" [disabled]="!isUpdateMode">
         </div>
 
         <div class="input-group input-group-md mb-3">
-            <span class="input-group-text">zipcode</span>
+            <span class="input-group-text">Zip Code</span>
             <input type="text" class="form-control" [(ngModel)]="user.zipCode" [disabled]="!isUpdateMode">
         </div>
 
         <div class="input-group input-group-md mb-3">
-            <span class="input-group-text">profession</span>
+            <span class="input-group-text">Profession</span>
             <input type="text" class="form-control" [(ngModel)]="user.profession" [disabled]="!isUpdateMode">
         </div>
-
 
         <div class="input-group input-group-md mb-3">
             <span class="input-group-text">Created On</span>
             <input type="text" class="form-control" [value]="user.createdAt?.toString() | date:'d/M/yy, h:mm a'"
                 disabled>
         </div>
-
 
         <div class="d-grid gap-2" *ngIf="!isUpdateMode">
             <button type="button" class="btn btn-primary" (click)="update()">Update Profile Details</button>
@@ -65,9 +63,6 @@
     <div class="profile-card">
         <div class="profile-header text-center mb-2">
             <h2 class="m-3">{{userRole}}</h2>
-
         </div>
     </div>
 </div>
-
-<app-footer></app-footer>

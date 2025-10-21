@@ -1,183 +1,182 @@
-<app-topbar></app-topbar>
+<div style="padding-bottom: 150px;">
+    <div class="card m-1 p-2">
+        <p-toast />
+        <p-toolbar styleClass="mb-6">
+            <ng-template #start>
+                <!-- <p-button label="New" icon="pi pi-plus" styleClass="mx-2" (onClick)="openNew()" /> -->
+                <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedUsers()"
+                    [disabled]="!selectedUsers || !selectedUsers.length" />
+            </ng-template>
 
-<div class="card m-1 p-2">
-    <p-toast />
-    <p-toolbar styleClass="mb-6">
-        <ng-template #start>
-            <!-- <p-button label="New" icon="pi pi-plus" styleClass="mx-2" (onClick)="openNew()" /> -->
-            <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedUsers()"
-                [disabled]="!selectedUsers || !selectedUsers.length" />
-        </ng-template>
-
-        <ng-template #end>
-            <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" auto
+            <ng-template #end>
+                <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" auto
                 customUpload styleClass="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" /> -->
-            <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
-        </ng-template>
-    </p-toolbar>
+                <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
+            </ng-template>
+        </p-toolbar>
 
-    <p-table #dt [value]="users" [rows]="10" [columns]="cols" [paginator]="true"
-        [globalFilterFields]="['firstName','lastName','username','profession']" [tableStyle]="{ 'min-width': '75rem' }"
-        [(selection)]="selectedUsers" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
-        [rowsPerPageOptions]="[10, 25, 50]">
+        <p-table #dt [value]="users" [rows]="10" [columns]="cols" [paginator]="true"
+            [globalFilterFields]="['firstName','lastName','username','profession']"
+            [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedUsers" [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]">
 
-        <!-- Caption with title and search on right -->
-        <ng-template #caption>
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <!-- Title on the left -->
-                <h5 style="margin: 0;">Manage Users</h5>
+            <!-- Caption with title and search on right -->
+            <ng-template #caption>
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <!-- Title on the left -->
+                    <h5 style="margin: 0;">Manage Users</h5>
 
-                <!-- Search input on the right -->
-                <div>
-                    <input pInputText type="text" (input)="onFilter($event)" placeholder="Search..."
-                        style="padding: 1rem; height: 2rem;" />
-                    <i class="pi pi-search" style="position: relative; left: -1.5rem;"></i>
-                </div>
-            </div>
-        </ng-template>
-
-
-        <!-- Table Header -->
-        <ng-template #header>
-            <tr>
-                <th style="width: 3rem">
-                    <p-tableHeaderCheckbox />
-                </th>
-                <th pSortableColumn="firstName" style="min-width:10rem;  position: relative;">
-                    First Name
-                    <p-sortIcon field="firstName" />
-                    <p-columnFilter type="text" field="firstName" display="menu" class="ml-auto"
-                        style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" />
-                </th>
-
-                <th pSortableColumn="lastName" style="min-width: 10rem;  position: relative;">
-                    Last Name
-                    <p-sortIcon field="lastName" />
-                    <p-columnFilter type="text" field="lastName" display="menu" class="ml-auto"
-                        style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" />
-                </th>
-                <th pSortableColumn="username" style="min-width:20rem;  position: relative;">
-                    UserName
-                    <p-sortIcon field="username" />
-                    <p-columnFilter type="text" field="username" display="menu" class="ml-auto"
-                        style="position: absolute; right: 10%; top: 50%; transform: translateY(-50%);" />
-                </th>
-                <th pSortableColumn="phone" style="min-width: 10rem">
-                    Contacts
-                    <p-sortIcon field="phone" />
-                </th>
-                <th pSortableColumn="role" style="min-width: 10rem">
-                    Role
-                    <p-sortIcon field="role" />
-                </th>
-                <th pSortableColumn="profession" style="min-width: 15rem;  position: relative;">
-                    Profession
-                    <p-sortIcon field="profession" />
-                    <p-columnFilter type="text" field="profession" display="menu" class="ml-auto"
-                        style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" />
-                </th>
-                <th pSortableColumn="createdAt" style="min-width: 12rem;  position: relative;">
-                    CreatedAt
-                    <p-sortIcon field="createdAt" />
-                    <p-columnFilter type="date" field="createdAt" display="menu" matchMode="dateIs"
-                        style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
-                    </p-columnFilter>
-                </th>
-                <th style="min-width: 10rem; text-align: center;">
-                    Actions
-                </th>
-            </tr>
-        </ng-template>
-
-        <!-- Table Body -->
-        <ng-template #body let-user>
-            <tr>
-                <td style="width: 3rem">
-                    <p-tableCheckbox [value]="user" />
-                </td>
-                <td style="min-width: 10rem">{{ user.firstName }}</td>
-                <td style="min-width: 10rem">{{ user.lastName }}</td>
-                <td style="min-width: 10rem">{{ user.username }}</td>
-                <td style="min-width: 10rem">{{ user.phone }}</td>
-                <td style="min-width: 10rem">{{ user.role | lowercase }}</td>
-                <td style="min-width: 10rem">{{ user.profession }}</td>
-                <td style="min-width: 10rem">{{ user.createdAt | date: 'd/M/yy, h:mm a'}}</td>
-                <!-- <td>{{ user.price | currency: 'USD' }}</td> -->
-                <td>
-                    <p-button icon="pi pi-pencil" styleClass="mx-4" [rounded]="true" [text]="true"
-                        (click)="editUser(user)" />
-                    <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" [text]="true"
-                        (click)="deleteUser(user)" />
-                </td>
-            </tr>
-        </ng-template>
-
-        <!-- Summary -->
-        <ng-template #summary>
-            <div class="flex items-center justify-between">
-                In total there are {{ users ? users.length : 0 }} users.
-            </div>
-        </ng-template>
-
-    </p-table>
-
-
-
-
-    <p-dialog [(visible)]="userDialog" [style]="{ width: '450px' }" header="User Details" [modal]="true">
-        <ng-template #content>
-            <div>
-                <div class="mb-3">
-                    <label for="firstName" class="block font-bold mb-1">FirstName</label>
-                    <input type="text" pInputText id="firstName" [(ngModel)]="user.firstName" required autofocus
-                        fluid />
-                    <small class="text-red-500" *ngIf="submitted && !user.firstName">First Name is required.</small>
-                </div>
-                <div class="mb-3">
-                    <label for="lastName" class="block font-bold mb-1">LastName</label>
-                    <input type="text" pInputText id="lastName" [(ngModel)]="user.lastName" autofocus fluid />
-                </div>
-
-                <div class="mb-3">
-                    <label for="username" class="block font-bold mb-1">Email</label>
-                    <input type="text" pInputText id="username" [(ngModel)]="user.username" required autofocus fluid />
-                    <small class="text-red-500" *ngIf="submitted && !user.username">UserName is required.</small>
-                </div>
-
-                <div class="mb-3">
-                    <span class="block font-bold mb-4">Role</span>
-                    <div class="grid grid-cols-12 gap-4">
-                        <div class="flex items-center gap-2 col-span-6">
-                            <p-radiobutton id="category1" name="category" value="USER" [(ngModel)]="user.role" />
-                            <label for="category1">USER</label>
-                        </div>
-                        <div class="flex items-center gap-2 col-span-6">
-                            <p-radiobutton id="category2" name="category" value="ADMIN" [(ngModel)]="user.role" />
-                            <label for="category2">ADMIN</label>
-                        </div>
+                    <!-- Search input on the right -->
+                    <div>
+                        <input pInputText type="text" (input)="onFilter($event)" placeholder="Search..."
+                            style="padding: 1rem; height: 2rem;" />
+                        <i class="pi pi-search" style="position: relative; left: -1.5rem;"></i>
                     </div>
                 </div>
+            </ng-template>
 
-                <div class="mb-3">
-                    <label for="zipCode" class="block font-bold mb-1">ZipCode</label>
-                    <input type="text" pInputText id="zipCode" [(ngModel)]="user.zipCode" autofocus fluid />
+
+            <!-- Table Header -->
+            <ng-template #header>
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox />
+                    </th>
+                    <th pSortableColumn="firstName" style="min-width:10rem;  position: relative;">
+                        First Name
+                        <p-sortIcon field="firstName" />
+                        <p-columnFilter type="text" field="firstName" display="menu" class="ml-auto"
+                            style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" />
+                    </th>
+
+                    <th pSortableColumn="lastName" style="min-width: 10rem;  position: relative;">
+                        Last Name
+                        <p-sortIcon field="lastName" />
+                        <p-columnFilter type="text" field="lastName" display="menu" class="ml-auto"
+                            style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" />
+                    </th>
+                    <th pSortableColumn="username" style="min-width:20rem;  position: relative;">
+                        UserName
+                        <p-sortIcon field="username" />
+                        <p-columnFilter type="text" field="username" display="menu" class="ml-auto"
+                            style="position: absolute; right: 10%; top: 50%; transform: translateY(-50%);" />
+                    </th>
+                    <th pSortableColumn="phone" style="min-width: 10rem">
+                        Contacts
+                        <p-sortIcon field="phone" />
+                    </th>
+                    <th pSortableColumn="role" style="min-width: 10rem">
+                        Role
+                        <p-sortIcon field="role" />
+                    </th>
+                    <th pSortableColumn="profession" style="min-width: 15rem;  position: relative;">
+                        Profession
+                        <p-sortIcon field="profession" />
+                        <p-columnFilter type="text" field="profession" display="menu" class="ml-auto"
+                            style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" />
+                    </th>
+                    <th pSortableColumn="createdAt" style="min-width: 12rem;  position: relative;">
+                        CreatedAt
+                        <p-sortIcon field="createdAt" />
+                        <p-columnFilter type="date" field="createdAt" display="menu" matchMode="dateIs"
+                            style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                        </p-columnFilter>
+                    </th>
+                    <th style="min-width: 10rem; text-align: center;">
+                        Actions
+                    </th>
+                </tr>
+            </ng-template>
+
+            <!-- Table Body -->
+            <ng-template #body let-user>
+                <tr>
+                    <td style="width: 3rem">
+                        <p-tableCheckbox [value]="user" />
+                    </td>
+                    <td style="min-width: 10rem">{{ user.firstName }}</td>
+                    <td style="min-width: 10rem">{{ user.lastName }}</td>
+                    <td style="min-width: 10rem">{{ user.username }}</td>
+                    <td style="min-width: 10rem">{{ user.phone }}</td>
+                    <td style="min-width: 10rem">{{ user.role | lowercase }}</td>
+                    <td style="min-width: 10rem">{{ user.profession }}</td>
+                    <td style="min-width: 10rem">{{ user.createdAt | date: 'd/M/yy, h:mm a'}}</td>
+                    <!-- <td>{{ user.price | currency: 'USD' }}</td> -->
+                    <td>
+                        <p-button icon="pi pi-pencil" styleClass="mx-4" [rounded]="true" [text]="true"
+                            (click)="editUser(user)" />
+                        <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" [text]="true"
+                            (click)="deleteUser(user)" />
+                    </td>
+                </tr>
+            </ng-template>
+
+            <!-- Summary -->
+            <ng-template #summary>
+                <div class="flex items-center justify-between">
+                    In total there are {{ users ? users.length : 0 }} users.
                 </div>
+            </ng-template>
 
-                <div class="mb-3">
-                    <label for="profession" class="block font-bold mb-1">Profession</label>
-                    <input type="text" pInputText id="profession" [(ngModel)]="user.profession" autofocus fluid />
+        </p-table>
+
+
+
+
+        <p-dialog [(visible)]="userDialog" [style]="{ width: '450px' }" header="User Details" [modal]="true">
+            <ng-template #content>
+                <div>
+                    <div class="mb-3">
+                        <label for="firstName" class="block font-bold mb-1">FirstName</label>
+                        <input type="text" pInputText id="firstName" [(ngModel)]="user.firstName" required autofocus
+                            fluid />
+                        <small class="text-red-500" *ngIf="submitted && !user.firstName">First Name is required.</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="block font-bold mb-1">LastName</label>
+                        <input type="text" pInputText id="lastName" [(ngModel)]="user.lastName" autofocus fluid />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="username" class="block font-bold mb-1">Email</label>
+                        <input type="text" pInputText id="username" [(ngModel)]="user.username" required autofocus
+                            fluid />
+                        <small class="text-red-500" *ngIf="submitted && !user.username">UserName is required.</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <span class="block font-bold mb-4">Role</span>
+                        <div class="grid grid-cols-12 gap-4">
+                            <div class="flex items-center gap-2 col-span-6">
+                                <p-radiobutton id="category1" name="category" value="USER" [(ngModel)]="user.role" />
+                                <label for="category1">USER</label>
+                            </div>
+                            <div class="flex items-center gap-2 col-span-6">
+                                <p-radiobutton id="category2" name="category" value="ADMIN" [(ngModel)]="user.role" />
+                                <label for="category2">ADMIN</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="zipCode" class="block font-bold mb-1">ZipCode</label>
+                        <input type="text" pInputText id="zipCode" [(ngModel)]="user.zipCode" autofocus fluid />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="profession" class="block font-bold mb-1">Profession</label>
+                        <input type="text" pInputText id="profession" [(ngModel)]="user.profession" autofocus fluid />
+                    </div>
                 </div>
-            </div>
-        </ng-template>
+            </ng-template>
 
-        <ng-template #footer>
-            <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
-            <p-button label="Save" icon="pi pi-check" (click)="saveUser()" />
-        </ng-template>
-    </p-dialog>
+            <ng-template #footer>
+                <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+                <p-button label="Save" icon="pi pi-check" (click)="saveUser()" />
+            </ng-template>
+        </p-dialog>
 
-    <p-confirmDialog [style]="{ width: '450px' }" />
+        <p-confirmDialog [style]="{ width: '450px' }" />
+    </div>
 </div>
-
-<app-footer></app-footer>

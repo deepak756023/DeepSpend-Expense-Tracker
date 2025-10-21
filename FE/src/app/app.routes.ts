@@ -12,40 +12,60 @@ import { roleBasedAuthGuard } from './guards/role-based-auth.guard';
 import { UnauthorizedComponent } from './modules/landing-page/unauthorized/unauthorized.component';
 import { SessionExpiredComponent } from './modules/landing-page/session-expired/session-expired.component';
 import { ProfileComponent } from './modules/landing-page/profile/profile.component';
+import { LayoutComponent } from './modules/landing-page/Layout/layout/layout.component';
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'layout',
         pathMatch: 'full'
     },
     {
-        path: 'home',
-        component: HomeComponent
-    },
-    {
-        path: 'user-mgmt',
-        component: UserManagementComponent,
-        canActivate: [roleBasedAuthGuard],
-        data: { role: 'ADMIN' }
-    },
-    {
-        path: 'expense-mgmt',
-        component: ExpenseMgmtComponent,
-        canActivate: [roleBasedAuthGuard],
-        data: { role: 'USER' }
-    },
-    {
-        path: 'charts',
-        component: ChartsComponent,
-        canActivate: [roleBasedAuthGuard],
-        data: { role: 'USER' }
-    },
-    {
-        path: 'my-profile',
-        component: ProfileComponent,
-        canActivate: [roleBasedAuthGuard],
-        data: { role: 'USER' }
+        path: 'layout',
+        component: LayoutComponent,
+        children: [
+            {
+                path: '',
+                redirectTo: 'home',
+                pathMatch: 'full'
+            },
+            {
+                path: 'home',
+                component: HomeComponent
+            },
+            {
+                path: 'user-mgmt',
+                component: UserManagementComponent,
+                canActivate: [roleBasedAuthGuard],
+                data: { role: 'ADMIN' }
+            },
+            {
+                path: 'expense-mgmt',
+                component: ExpenseMgmtComponent,
+                canActivate: [roleBasedAuthGuard],
+                data: { role: 'USER' }
+            },
+            {
+                path: 'charts',
+                component: ChartsComponent,
+                canActivate: [roleBasedAuthGuard],
+                data: { role: 'USER' }
+            },
+            {
+                path: 'my-profile',
+                component: ProfileComponent,
+                canActivate: [roleBasedAuthGuard],
+                data: { role: 'USER' }
+            },
+            {
+                path: 'unauthorized',
+                component: UnauthorizedComponent
+            },
+            {
+                path: 'session-expired',
+                component: SessionExpiredComponent
+            }
+        ]
     },
     {
         path: 'login',
@@ -66,15 +86,6 @@ export const routes: Routes = [
     {
         path: 'create-password',
         component: CreatePwdComponent
-    },
-    {
-        path: 'unauthorized',
-        component: UnauthorizedComponent
-    },
-    {
-        path: 'session-expired',
-        component: SessionExpiredComponent
-
     },
     {
         path: '**',

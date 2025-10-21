@@ -6,7 +6,6 @@ import com.example.expensetracker.exception.custom_exception.NoSuchUserExistWith
 import com.example.expensetracker.exception.custom_exception.UserAlreadyExistsException;
 import com.example.expensetracker.repository.UserRepo;
 import com.example.expensetracker.response.ApiResponse;
-import com.example.expensetracker.response.ErrorResponse;
 import com.example.expensetracker.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Objects;
 
 
 @RestController
@@ -106,6 +106,10 @@ public class UserController {
         if(user == null){
             throw new NoSuchUserExistWithThisMailIdException("User Not present");
         }
+//        if(Objects.equals(user.getPassword(), "")){
+//            userRepo.delete(user);
+//            return new ApiResponse<>(200, "User deleted successfully", user);
+//        }
         user.setActive(false);
         userRepo.save(user);
         return new ApiResponse<>(200, "User deleted successfully", user);
@@ -116,6 +120,10 @@ public class UserController {
         for(User u : user){
             User existingUser = userRepo.findByUsername(u.getUsername());
             if(existingUser != null){
+//                if(existingUser.getPassword() == null){
+//                    userRepo.delete(existingUser);
+//                    continue;
+//                }
                 existingUser.setActive(false);
                 userRepo.save(existingUser);
             }

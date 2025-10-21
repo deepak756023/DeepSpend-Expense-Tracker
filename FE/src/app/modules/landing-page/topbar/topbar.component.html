@@ -14,19 +14,19 @@
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav gap-3">
             <li class="nav-item">
-                <a class="nav-link fs-5" routerLink="/home" routerLinkActive="active"
+                <a class="nav-link fs-5" routerLink="/layout/home" routerLinkActive="active"
                     [routerLinkActiveOptions]="{ exact: true }">Home</a>
             </li>
             <li class="nav-item" *ngIf="userRole();">
-                <a class="nav-link fs-5" routerLink="/charts" routerLinkActive="active"
+                <a class="nav-link fs-5" routerLink="/layout/charts" routerLinkActive="active"
                     [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
             </li>
             <li class="nav-item" *ngIf="userRole();">
-                <a class="nav-link fs-5" routerLink="/expense-mgmt" routerLinkActive="active"
+                <a class="nav-link fs-5" routerLink="/layout/expense-mgmt" routerLinkActive="active"
                     [routerLinkActiveOptions]="{ exact: true }">Expense Management</a>
             </li>
             <li class="nav-item" *ngIf="userRole() && isAdmin()">
-                <a class="nav-link fs-5" routerLink="/user-mgmt" routerLinkActive="active"
+                <a class="nav-link fs-5" routerLink="/layout/user-mgmt" routerLinkActive="active"
                     [routerLinkActiveOptions]="{ exact: true }">User Management</a>
             </li>
         </ul>
@@ -50,17 +50,19 @@
             <button type="button" class="btn text-color mx-2" *ngIf="userRole();">{{usertype}}</button>
 
             <div class="dropdown" *ngIf="userRole();">
-                <button type="button" class="btn dropbtn  btn-custom-border">
+                <button type="button" class="btn dropbtn btn-custom-border" (click)="toggleDropdown()">
                     <div class="user-profile">
-                        <div class="avatar">DN</div>
-                        <div class="full-name">Deepak Nayak</div><i class="fa fa-caret-down px-2"></i>
+                        <div class="avatar">{{usernameInitials}}</div>
+                        <div class="full-name">{{firstName | truncate:7}} {{lastName | truncate:7}}</div>
+                        <i class="fa fa-caret-down px-2"></i>
                     </div>
                 </button>
-                <div class="dropdown-content fs-5">
+                <div class="dropdown-content fs-5" [class.show]="isDropdownOpen">
                     <a (click)="profile()"><i class="fa fa-user mx-2"></i> Profile</a>
                     <a (click)="logout()"><i class="fa fa-sign-out mx-2"></i> Logout</a>
                 </div>
             </div>
+
 
 
         </div>

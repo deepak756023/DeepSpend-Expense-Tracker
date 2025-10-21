@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<section class="vh-100 bg-image gradient-custom-2">
+<section class="vh-100 bg-image ">
 
 
     <div *ngIf="isError" class="alert alert-danger custom-alert">
@@ -10,19 +10,19 @@
 
         <strong>{{successMsg}}</strong>
     </div>
-    <div class="mask d-flex align-items-center h-100">
-        <div class="container h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-12 col-md-9 col-lg-10 col-xl-8">
+    <div class="mask d-flex align-items-center p-2" style="background-color: rgb(255, 252, 249);">
+        <div class="container">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-12 col-md-9 col-lg-10 col-xl-8" style="width: 120%;">
                     <div class="card" style="border-radius: 15px; background-color: #ffffff;">
                         <div class="text-center">
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
                                 style="width: 150px; height: 100px;" alt="logo" />
                             <h3>DeepSpend : A DeepTech Product</h3>
                         </div>
-                        <div class="card-body p-1">
+                        <div class="card-body px-4 py-3">
 
-                            <h5 class="text-uppercase text-center m2">Create an account</h5>
+                            <h5 class="text-uppercase text-center m2">Fill Out the form</h5>
 
                             <form id="registrationForm" [formGroup]="useForm">
                                 <div *ngIf="isSpinnerOn" class="overlay" id="loading">
@@ -33,39 +33,38 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="d-flex gap-2">
-                                    <div data-mdb-input-init class="form-outline form-floating flex-grow-1 mx-2">
+                                <div class="d-flex gap-2 mb-4">
+                                    <div class="flex-grow-1 mx-2">
+                                        <label for="firstName" class="form-label fw-bold">
+                                            First Name<span class="required">*</span>
+                                        </label>
                                         <input id="firstName" type="text" formControlName="firstName"
                                             class="form-control form-control-lg border-2" placeholder="Enter first name"
                                             [ngClass]="{
-                                                'border-danger': useForm.controls['firstName'].touched && useForm.controls['firstName'].invalid
-                                            }" />
-                                        <label class="form-label" for="firstName">First Name<span
-                                                class="required">&#42;</span></label>
+                                    'border-danger': useForm.controls['firstName'].touched && useForm.controls['firstName'].invalid
+                                  }" />
                                     </div>
 
-                                    <div data-mdb-input-init class="form-outline form-floating flex-grow-1 mx-2">
+                                    <div class="flex-grow-1 mx-2">
+                                        <label for="lastName" class="form-label fw-semibold">Last Name</label>
                                         <input id="lastName" type="text" formControlName="lastName"
                                             class="form-control form-control-lg border-2"
                                             placeholder="Enter last name" />
-                                        <label class="form-label" for="lastName">Last Name</label>
                                     </div>
                                 </div>
 
-
-
-
-                                <div data-mdb-input-init class="form-outline form-floating m-2 my-3">
+                                <div class="m-2 my-3 mb-4">
+                                    <label for="username" class="form-label fw-semibold">
+                                        Your Email<span class="required">*</span>
+                                    </label>
                                     <input id="username" type="email" formControlName="username"
-                                        class="form-control form-control-lg border-2" placeholder="Enter email "
+                                        class="form-control form-control-lg border-2" placeholder="Enter email"
                                         [ngClass]="{
-                                            'border-danger': useForm.controls['username'].touched && useForm.controls['username'].invalid}" />
-                                    <label class="form-label" for="username">Your Email<span
-                                            class="required">&#42;</span></label>
+                                  'border-danger': useForm.controls['username'].touched && useForm.controls['username'].invalid
+                                }" />
+
                                     @if (useForm.controls['username'].touched) {
-
                                     <div class="text-danger">
-
                                         @if(useForm.controls['username'].errors?.['username']){
                                         <span>Invalid Email!!!</span>
                                         }
@@ -73,35 +72,32 @@
                                     }
                                 </div>
 
-
-                                <div class="d-flex gap-2 my-2">
-                                    <div data-mdb-input-init class="form-outline form-floating flex-grow-1 mx-2">
-
+                                <div class="d-flex gap-2 my-2 mb-4">
+                                    <div class="flex-grow-1 mx-2">
+                                        <label for="phone" class="form-label fw-semibold">
+                                            Phone Number<span class="required">*</span>
+                                        </label>
                                         <input id="phone" type="text" formControlName="phone"
                                             class="form-control form-control-lg border-2"
-                                            placeholder="Enter your Phone No."
-                                            [ngClass]="{'border-danger': useForm.controls['phone'].touched && useForm.controls['phone'].invalid}" />
-                                        <label class="form-label" for="phone">Phone Number<span
-                                                class="required">&#42;</span></label>
+                                            placeholder="Enter your phone number" [ngClass]="{
+                                    'border-danger': useForm.controls['phone'].touched && useForm.controls['phone'].invalid
+                                  }" />
                                     </div>
 
-                                    <div data-mdb-input-init class="form-outline form-floating flex-grow-1 mx-2">
+                                    <div class="flex-grow-1 mx-2">
+                                        <label for="zipCode" class="form-label fw-semibold">Zip Code</label>
                                         <input id="zipCode" type="text" formControlName="zipCode"
                                             class="form-control form-control-lg border-2"
-                                            placeholder="Enter your zipCode" />
-                                        <label class="form-label" for="zipCode">ZipCode</label>
+                                            placeholder="Enter your zip code" />
                                     </div>
                                 </div>
 
-                                <div data-mdb-input-init class="form-outline form-floating flex-grow-1 mx-2 my-3">
-
+                                <div class="flex-grow-1 mx-2 my-3">
+                                    <label for="profession" class="form-label fw-semibold">Profession</label>
                                     <input id="profession" type="text" formControlName="profession"
                                         class="form-control form-control-lg border-2"
-                                        placeholder="Enter your Profession" />
-                                    <label class="form-label" for="profession">Enter your Profession</label>
+                                        placeholder="Enter your profession" />
                                 </div>
-
-
 
 
 
