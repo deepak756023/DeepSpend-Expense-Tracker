@@ -1,6 +1,111 @@
-/* div.w-100 {
-    max-width: 100%;
-    height: auto;
-    margin-top: 50px;
-    padding: 10px;
-} */
+/* --- Base Card Styles --- */
+.custom-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 90%;
+}
+
+.custom-card-top5 {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* padding: 20px; */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 90%;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.custom-card-top5:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+
+
+.card-number {
+    font-size: 2rem;
+    color: #007bff;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* --- Chart Section --- */
+.chart-wrapper {
+    width: 100%;
+    min-height: 400px;
+    text-align: center;
+}
+
+/* --- Ordered List --- */
+ol li {
+    font-size: .9rem;
+    color: #181818;
+    margin-bottom: 0.2rem;
+}
+
+/* --- Line Chart Card --- */
+.custom-linear {
+    border: none;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Center Alignment --- */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Datepicker Container --- */
+.datepicker-container {
+    z-index: 5;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    .card-number {
+        font-size: 1.8rem;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+
+    ol li {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .custom-card {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .chart-wrapper {
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-number {
+        font-size: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    ol li {
+        font-size: 0.95rem;
+    }
+}

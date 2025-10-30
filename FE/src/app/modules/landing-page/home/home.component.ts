@@ -12,4 +12,5 @@ import { OurTeamsComponent } from "../our-teams/our-teams.component";
 })
 export class HomeComponent {
 
+
 }

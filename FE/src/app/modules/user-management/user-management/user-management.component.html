@@ -1,4 +1,4 @@
-<div style="padding-bottom: 150px;">
+<div style="padding-bottom: 50px;">
     <div class="card m-1 p-2">
         <p-toast />
         <p-toolbar styleClass="mb-6">
@@ -19,7 +19,7 @@
             [globalFilterFields]="['firstName','lastName','username','profession']"
             [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedUsers" [rowHover]="true" dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]">
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" sortMode="multiple">
 
             <!-- Caption with title and search on right -->
             <ng-template #caption>

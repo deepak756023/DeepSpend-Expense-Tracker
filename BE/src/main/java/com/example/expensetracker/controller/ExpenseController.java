@@ -2,6 +2,7 @@ package com.example.expensetracker.controller;
 
 import com.example.expensetracker.entity.Category;
 import com.example.expensetracker.entity.Expense;
+import com.example.expensetracker.entity.ExpenseStatistics;
 import com.example.expensetracker.repository.ExpenseRepo;
 import com.example.expensetracker.response.ApiResponse;
 import com.example.expensetracker.service.ExpenseService;
@@ -9,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -93,10 +95,25 @@ public class ExpenseController {
 
     @GetMapping("/all-categories")
     public ApiResponse<String[]> getAllCategories(@RequestParam Long userId) {
-        {
+
             String[] categories = expenseService.getAllCategories(userId);
             return new ApiResponse<>(200, "All categories", categories);
-        }
+
     }
+
+    @GetMapping("expense-statistics")
+    public ApiResponse<ExpenseStatistics> getStatistics(@RequestParam Long userId) {
+        ExpenseStatistics expenseStatistics = expenseService.getExpStatistics(userId);
+        return new ApiResponse<>(200, "Expense Statistics", expenseStatistics);
+
+    }
+
+    @GetMapping("daywise-expenses")
+    public ApiResponse<Map<String, Double>> getDailyExpenses(@RequestParam Long userId, @RequestParam int month, @RequestParam int year) {
+        Map<String, Double> dailyExpenses = expenseService.getDailyExpenses(userId, month, year);
+        return new ApiResponse<>(200, "Expense Statistics", dailyExpenses);
+
+    }
+
 
 }

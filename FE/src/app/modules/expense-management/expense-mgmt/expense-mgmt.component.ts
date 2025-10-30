@@ -62,6 +62,10 @@ export class ExpenseMgmtComponent implements OnInit {
   defaultCategory: string[] = ['FOOD', 'HEALTH', 'TRAVEL', 'EDUCATION', 'GIFT', 'BILLS', 'INVEST'];
   isAddNewCategory: boolean = false;
   isDuplicateCategory: boolean = false;
+  todayString: string = '';
+  isNewCategoryIsOthers: boolean = false;
+
+
 
   useForm: FormGroup = new FormGroup({
     user: new FormGroup({
@@ -89,6 +93,8 @@ export class ExpenseMgmtComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDemoData();
+    const today = new Date();
+    this.todayString = today.toISOString().split('T')[0];
   }
 
   getAllCategories() {
@@ -98,6 +104,8 @@ export class ExpenseMgmtComponent implements OnInit {
     });
 
   }
+
+
 
 
 
@@ -118,8 +126,13 @@ export class ExpenseMgmtComponent implements OnInit {
     newCategoryControl?.updateValueAndValidity();
   }
 
-  checkDuplicateCategory() {
+  checkDuplicateCategoryOrOthers() {
     const newCat = this.useForm.get('newCategory')?.value?.trim().toLowerCase();
+    this.isNewCategoryIsOthers = newCat == "others" || newCat == "other";
+
+    if (this.isNewCategoryIsOthers) {
+      this.useForm.get('newCategory')?.setErrors({ other: true });
+    }
     this.isDuplicateCategory = this.allCategories
       .map(c => c.toLowerCase())
       .includes(newCat);

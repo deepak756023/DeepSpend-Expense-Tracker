@@ -40,26 +40,30 @@
 
                                 <form class="p-3" id="userForm" [formGroup]="useForm">
 
-                                    <div class="form-outline mb-2">
-                                        <label class="form-label" for="userMail">Username <span
-                                                class="required">&#42;</span></label>
-                                        <input type="email" formControlName="userMail" class="form-control"
-                                            placeholder="Enter email address" [ngClass]="{
+                                    <div>
+                                        <div class="form-outline mb-2">
+                                            <label class="form-label" for="userMail">Username <span
+                                                    class="required">&#42;</span></label>
+                                            <input type="email" formControlName="userMail" class="form-control"
+                                                placeholder="Enter email address" [ngClass]="{
                                             'border-danger': useForm.controls['userMail'].touched && useForm.controls['userMail'].invalid
                                         }" />
 
-                                        @if (useForm.controls['userMail'].touched) {
+                                            @if (useForm.controls['userMail'].touched) {
 
-                                        <div class="text-danger">
-                                            @if(useForm.controls['userMail'].errors?.['required']){
-                                            <Span> This is required</Span>
-                                            }
-                                            @if(useForm.controls['userMail'].errors?.['email']){
-                                            <span>Invalid Email!!!</span>
+                                            <div class="text-danger">
+                                                @if(useForm.controls['userMail'].errors?.['required']){
+                                                <Span> This is required</Span>
+                                                }
+                                                @if(useForm.controls['userMail'].errors?.['email']){
+                                                <span>Invalid Email!!!</span>
+                                                }
+                                            </div>
                                             }
                                         </div>
-                                        }
                                     </div>
+
+
 
                                     <div class="form-outline form-position">
                                         <label class="form-label" for="pwd">Password <span

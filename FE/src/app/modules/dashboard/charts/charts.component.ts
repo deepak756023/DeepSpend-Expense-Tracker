@@ -1,60 +1,97 @@
 import { Component } from '@angular/core';
 import { NgImportsModule } from '../../../ngimports';
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FluidModule } from 'primeng/fluid';
 import { ChartService } from '../chart.service';
-
+import { TruncatePipe } from "../../../pipes/string-pipe/truncate.pipe";
 
 @Component({
   selector: 'app-charts',
-  imports: [NgImportsModule, CommonModule, FluidModule],
+  imports: [NgImportsModule, CommonModule, FluidModule, TruncatePipe],
   templateUrl: './charts.component.html',
-  styleUrl: './charts.component.css'
+  styleUrls: ['./charts.component.css']
 })
 export class ChartsComponent {
   pieData: any;
   pieOptions: any;
   barData: any;
   barOptions: any;
+  lineData: any;
+  lineOptions: any;
+
+  expenseStat: any;
+
   private chartValues: number[] = [];
   private barValues: number[] = [];
-  isDataAvailable: boolean = false;
-  isYearlyDataAvailable: boolean = false;
+  private dailyTotolExpense: number[] = [];
   private allCategories: string[] = [];
   allCategoryInSelectedMonth: string[] = [];
+  private dates: string[] = [];
+  selectedMonth: string = "";
+  selectedYear: string = "";
 
-  private allMonths = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+  isDataAvailable: boolean = false;
+  isYearlyDataAvailable: boolean = false;
+
+  private allMonths = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
   date1: Date | undefined;
   date2: Date | undefined;
+  date3: Date | undefined;
   today = new Date();
 
   constructor(private chartService: ChartService) {
     this.chartService.getAllCategories(Number(localStorage.getItem('user_id'))).subscribe(res => {
       this.allCategories = res.data;
     });
+
+    this.chartService.getExpenseStat(Number(localStorage.getItem('user_id'))).subscribe(res => {
+      this.expenseStat = res.data;
+    });
   }
 
   ngOnInit() {
-
-
-
     this.loadChartData(Number(localStorage.getItem('user_id')), this.today.getMonth() + 1, this.today.getFullYear());
-
     this.loadYearlyChartData(Number(localStorage.getItem('user_id')), this.today.getFullYear());
+    this.loadDailyExpenses(Number(localStorage.getItem('user_id')), this.today.getMonth() + 1, this.today.getFullYear());
+    this.selectedMonth = this.today.toLocaleString('default', { month: 'long' });
+    this.selectedYear = this.today.getFullYear().toString();
+  }
+
+  loadDailyExpenses(userId: number, month: number, year: number) {
+    this.chartService.getDailyExpenses(userId, month, year).subscribe(res => {
+      const data = res.data;
+      const sortedKeys = Object.keys(data).sort();
+
+      this.dates = [];
+      this.dailyTotolExpense = [];
+
+      for (let key of sortedKeys) {
+        this.dates.push(key.substring(8));
+        this.dailyTotolExpense.push(data[key]);
+      }
+
+      this.buildLinearChart();
+    });
+  }
+
+
+  onMonthYearChangeForLineChart() {
+    if (this.date3) {
+      const month = this.date3.getMonth() + 1;
+      const year = this.date3.getFullYear();
+      this.selectedMonth = this.date3.toLocaleString('default', { month: 'long' });
+      this.selectedYear = this.date3.getFullYear().toString();
+      this.loadDailyExpenses(Number(localStorage.getItem('user_id')), month, year);
+    }
   }
 
   loadChartData(userId: number, month: number, year: number) {
-    this.chartService.getMonthlyExpensesChart(
-      userId,
-      month,
-      year
-    ).subscribe(res => {
+    this.chartService.getMonthlyExpensesChart(userId, month, year).subscribe(res => {
       const data = res.data;
       this.isDataAvailable = Object.keys(data).length > 0;
       this.allCategoryInSelectedMonth = this.allCategories.filter(cat => data[cat] > 0);
       this.chartValues = this.allCategoryInSelectedMonth.map(cat => Number(data[cat].toFixed(0)) ?? 0);
-
       this.buildPieChart();
     });
   }
@@ -67,13 +104,10 @@ export class ChartsComponent {
     }
   }
 
-
-
   loadYearlyChartData(userId: number, year: number) {
     this.chartService.getYearlyExpensesChart(userId, year).subscribe(res => {
       const data = res.data;
       this.barValues = Array.from({ length: 12 }, (_, i) => {
-
         const month = (i + 1).toString();
         return data[month] ?? 0;
       });
@@ -95,7 +129,6 @@ export class ChartsComponent {
     }
   }
 
-
   private buildPieChart() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
@@ -116,7 +149,6 @@ export class ChartsComponent {
             documentStyle.getPropertyValue('--p-blue-500'),
             documentStyle.getPropertyValue('--p-yellow-500'),
             documentStyle.getPropertyValue('--p-gray-500')
-
           ],
           hoverBackgroundColor: [
             documentStyle.getPropertyValue('--p-indigo-400'),
@@ -147,7 +179,7 @@ export class ChartsComponent {
     };
   }
 
-  buildBarChart() {
+  private buildBarChart() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
@@ -157,7 +189,7 @@ export class ChartsComponent {
       labels: this.allMonths,
       datasets: [
         {
-          label: "Expense",
+          label: 'Expense',
           backgroundColor: documentStyle.getPropertyValue('--p-primary-500'),
           borderColor: documentStyle.getPropertyValue('--p-primary-500'),
           data: this.barValues
@@ -166,9 +198,8 @@ export class ChartsComponent {
     };
 
     this.barOptions = {
-
       maintainAspectRatio: false,
-      aspectRatio: .6,
+      aspectRatio: 0.6,
       plugins: {
         legend: {
           labels: {
@@ -200,9 +231,58 @@ export class ChartsComponent {
         }
       }
     };
+  }
 
+  private buildLinearChart() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
+    this.lineData = {
+      labels: this.dates,
+      datasets: [
+        {
+          label: 'Spending',
+          data: this.dailyTotolExpense,
+          fill: false,
+          backgroundColor: documentStyle.getPropertyValue('--p-primary-500'),
+          borderColor: documentStyle.getPropertyValue('--p-primary-500'),
+          tension: 0.4
+        }
+      ]
+    };
 
+    this.lineOptions = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.8,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        }
+      }
+    };
   }
 }
-

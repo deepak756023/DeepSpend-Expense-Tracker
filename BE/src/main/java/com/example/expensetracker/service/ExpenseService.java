@@ -2,14 +2,14 @@ package com.example.expensetracker.service;
 
 import com.example.expensetracker.entity.Category;
 import com.example.expensetracker.entity.Expense;
+import com.example.expensetracker.entity.ExpenseStatistics;
 import com.example.expensetracker.exception.custom_exception.NoSuchExpensesExists;
 import com.example.expensetracker.repository.ExpenseRepo;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.YearMonth;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -122,6 +122,56 @@ public class ExpenseService {
                 .map(Expense::getCategory)
                 .distinct()
                 .toArray(String[]::new);
+    }
+
+    public ExpenseStatistics getExpStatistics(Long userId) {
+        ExpenseStatistics expenseStatics = new ExpenseStatistics();
+        HashSet<String> set = new HashSet<>();
+
+        List<Expense> expenses = this.expenseRepo.findByUserId(userId);
+        double totalAmount = 0.0;
+        for(var expense : expenses){
+            totalAmount += expense.getAmount();
+            String date = expense.getExpenseDate().toString().substring(0, 7);
+            set.add(date);
+        }
+
+        expenseStatics.setTotalExpenses(totalAmount);
+        expenseStatics.setAvgExpensesPerMonth(totalAmount / set.size());
+
+        var topFiveExpenses = expenses.stream()
+                .filter(e -> (e.getExpenseDate().getMonthValue() == LocalDate.now().getMonthValue() && e.getExpenseDate().getYear() == LocalDate.now().getYear()))
+                .sorted(Comparator.comparing(Expense::getAmount).reversed())
+                .limit(5)
+                .toList();
+
+        expenseStatics.setList(topFiveExpenses);
+
+        return expenseStatics;
+
+    }
+
+    public Map<String, Double> getDailyExpenses(Long userId, int month, int year) {
+        Map<String, Double> dailyExpenseList = new LinkedHashMap<>();
+
+        YearMonth yearMonth = YearMonth.of(year, month);
+        int daysInMonth = yearMonth.lengthOfMonth();
+
+        for (int i = 1; i <= daysInMonth; i++) {
+            String date = String.format("%04d-%02d-%02d", year, month, i);
+            dailyExpenseList.put(date, 0.0);
+        }
+
+        List<Expense> expenses = this.expenseRepo.findByUserId(userId);
+
+        for (var expense : expenses) {
+            if (expense.getExpenseDate().getMonthValue() == month && expense.getExpenseDate().getYear() == year) {
+                String dateStr = expense.getExpenseDate().toString();
+                dailyExpenseList.put(dateStr, dailyExpenseList.get(dateStr) + expense.getAmount());
+            }
+        }
+
+        return dailyExpenseList; // already sorted (1 → n)
     }
 
 }

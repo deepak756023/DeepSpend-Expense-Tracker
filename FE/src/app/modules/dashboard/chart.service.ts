@@ -14,6 +14,7 @@ interface ApiResponse<T> {
 export class ChartService {
 
 
+
   private baseUrl = 'http://localhost:8080/user/api/expenses';
   constructor(private http: HttpClient) { }
 
@@ -30,6 +31,18 @@ export class ChartService {
   getYearlyExpensesChart(userId: number, year: number): Observable<ApiResponse<{ [key: string]: number }>> {
     return this.http.get<ApiResponse<{ [key: string]: number }>>(
       `${this.baseUrl}/monthwise-expenses?userId=${userId}&year=${year}`
+    );
+  }
+
+  getExpenseStat(userId: number): Observable<ApiResponse<any>> {
+    return this.http.get<ApiResponse<any>>(
+      `${this.baseUrl}/expense-statistics?userId=${userId}`
+    );
+  }
+
+  getDailyExpenses(userId: number, month: number, year: number): Observable<ApiResponse<any>> {
+    return this.http.get<ApiResponse<any>>(
+      `${this.baseUrl}/daywise-expenses?userId=${userId}&month=${month}&year=${year}`
     );
   }
 
