@@ -1,45 +1,120 @@
-<div class="container-fluid">
-    <div class="row">
-        <!-- Pie Chart -->
-        <div class="col-12 col-md-6 p-5 position-relative">
-
-            <div class="position-absolute top-0 start-0 m-3">
-
-                <!-- Datepicker -->
-                <p-datepicker [(ngModel)]="date1" view="month" dateFormat="mm/yy" [readonlyInput]="true"
-                    placeholder="{{today.getMonth() + 1}}/{{today.getFullYear()}}" (onSelect)="onMonthYearChange()">
-                </p-datepicker>
-
+<div class="container-fluid py-2 m-2">
+    <!-- Top Summary Cards -->
+    <div class="row g-4 mb-5">
+        <!-- Total Expenses -->
+        <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
+            <div class="card custom-card text-center w-100">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <h3>Total Expenses</h3>
+                    <p class="card-number">{{expenseStat.totalExpenses | currency:'INR'}}</p>
+                </div>
             </div>
-
-            <div class="w-100  d-flex justify-content-center align-items-center"
-                style="max-width: 500px; height: 500px; margin-top: 50px;" *ngIf="isDataAvailable">
-                <p-chart type="pie" [data]="pieData" [options]="pieOptions" style="width: 100%; height: auto; ">
-                </p-chart>
-            </div>
-
-            <div class="w-100  d-flex justify-content-center align-items-center"
-                style="max-width: 500px; height: 500px; margin-top: 50px;" *ngIf="!isDataAvailable">
-                <p>No data available for the selected Month.</p>
-            </div>
-
         </div>
-        <!-- Bar Chart -->
-        <div class="col-12 col-md-6 p-4 position-relative">
-            <div class="position-absolute top-0 end-0 m-3">
-                <p-datepicker [(ngModel)]="date2" view="year" dateFormat="yy" [readonlyInput]="true"
-                    placeholder="{{today.getFullYear()}}" (onSelect)="onYearChange()"></p-datepicker>
+
+        <!-- Average Expenses per Month -->
+        <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
+            <div class="card custom-card text-center w-100">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <h3>Avg Expenses per Month</h3>
+                    <p class="card-number">{{expenseStat.avgExpensesPerMonth | currency:'INR'}}</p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Top 5 Expenses -->
+        <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
+            <div class="card custom-card-top5 text-center w-100">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center"
+                    style="padding-top: 2%;">
+                    <h4>Top Expenses of This Month</h4>
+                    <ol class="text-start ps-4">
+                        <li *ngFor="let item of expenseStat.list" [title]="item.description">
+                            {{item.amount | currency:'INR'}}({{item.category}}) -
+                            {{item.description | truncate : 25}}</li>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="card custom-linear p-4 my-5">
+        <div class="row g-4">
+            <!-- Pie Chart -->
+            <div class="col-12 col-lg-6 position-relative">
+                <div class="text-center ">
+                    <h5>CategoryWise Expenses</h5>
+                </div>
+                <div class="datepicker-container position-absolute top-0 start-0 m-3">
+                    <p-datepicker [(ngModel)]="date1" view="month" dateFormat="M/yy" [readonlyInput]="true"
+                        placeholder="{{ today.toLocaleString('default', { month: 'short' }) }}/{{ today.getFullYear() }}"
+                        (onSelect)="onMonthYearChange()" [maxDate]="today">
+                    </p-datepicker>
+                </div>
+
+                <div class="chart-wrapper d-flex justify-content-center align-items-center mt-5">
+                    <ng-container *ngIf="isDataAvailable; else noMonthData">
+                        <p-chart type="pie" [data]="pieData" [options]="pieOptions"
+                            style="width: 100%; height: auto; max-width: 500px;">
+                        </p-chart>
+                    </ng-container>
+                    <ng-template #noMonthData>
+                        <p class="text-muted">No data available for the selected Month.</p>
+                    </ng-template>
+                </div>
             </div>
 
-            <div class="w-100 d-flex justify-content-center align-items-center"
-                style="max-width: 600px; height: 500px; margin-top: 50px;" *ngIf="isYearlyDataAvailable">
-                <p-chart type="bar" [data]="barData" [options]="barOptions"
-                    style="width: 100%; height: auto;"></p-chart>
+            <!-- Bar Chart -->
+            <div class="col-12 col-lg-6 position-relative">
+                <div class="text-center">
+                    <h5>MonthWise Expenses</h5>
+                </div>
+                <div class="datepicker-container position-absolute top-0 end-0 m-3">
+                    <p-datepicker [(ngModel)]="date2" view="year" dateFormat="yy" [readonlyInput]="true"
+                        placeholder="{{ today.getFullYear() }}" (onSelect)="onYearChange()" [maxDate]="today">
+                    </p-datepicker>
+                </div>
+
+                <div class="chart-wrapper d-flex justify-content-center align-items-center mt-5">
+                    <ng-container *ngIf="isYearlyDataAvailable; else noYearData">
+                        <p-chart type="bar" [data]="barData" [options]="barOptions"
+                            style="width: 100%; height: auto; max-width: 600px;">
+                        </p-chart>
+                    </ng-container>
+                    <ng-template #noYearData>
+                        <p class="text-muted">No data available for the selected Year.</p>
+                    </ng-template>
+                </div>
             </div>
-            <div class="w-100  d-flex justify-content-center align-items-center"
-                style="max-width: 500px; height: 500px; margin-top: 50px; margin-left: 10%;"
-                *ngIf="!isYearlyDataAvailable">
-                <p>No data available for the selected Year.</p>
+        </div>
+    </div>
+
+    <!-- Line Chart -->
+    <div class="position-relative my-5">
+
+
+
+        <div class="row mt-5">
+            <div class="col-12">
+
+                <div class="card custom-linear p-4">
+                    <div class="text-center py-3">
+                        <h3>Daily Expenses</h3>
+                    </div>
+                    <div class="datepicker-container position-absolute top-0 start-0 m-5">
+                        <p-datepicker [(ngModel)]="date3" view="month" dateFormat="M/yy" [readonlyInput]="true"
+                            placeholder="{{ today.toLocaleString('default', { month: 'short' }) }}/{{ today.getFullYear() }}"
+                            (onSelect)="onMonthYearChangeForLineChart()" [maxDate]="today">
+                        </p-datepicker>
+                    </div>
+                    <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart>
+                    <div class="center mt-3">
+                        <h4 class="fw-semibold">{{selectedMonth}} - {{selectedYear}}</h4>
+                    </div>
+                </div>
+
             </div>
         </div>
 

@@ -3,10 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { UserMngmntService } from '../service/user-mngmnt.service';
 import { NgImportsModule } from '../../../ngimports';
 import { Table } from 'primeng/table';
-import { HttpClient } from '@angular/common/http';
-import { jwtDecode } from 'jwt-decode';
-import { JwtPayload } from '../../auth/login/login.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 export interface User {
@@ -60,26 +57,15 @@ export class UserManagementComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private cd: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.loadDemoData();
-  }
-
-  loadDemoData(): void {
-    this.userMngmntService.getUsers().subscribe({
-      next: (data) => {
-        this.users = (data || []).map(u => ({
-          ...u,
-          createdAt: u.createdAt ? new Date(u.createdAt) : undefined
-        }));
-        this.cd.markForCheck();
-      },
-      error: (err) => {
-        console.error('Error fetching users:', err);
-      }
-    });
+    this.users = (this.route.snapshot.data['users'] || []).map((u: any) => ({
+      ...u,
+      createdAt: u.createdAt ? new Date(u.createdAt) : undefined
+    }));
 
     this.cols = [
       { field: 'firstName', header: 'First Name' },
@@ -93,6 +79,7 @@ export class UserManagementComponent implements OnInit {
 
     this.exportColumns = this.cols.map(col => ({ title: col.header, dataKey: col.field }));
   }
+
 
   onFilter(event: Event) {
     const value = (event.target as HTMLInputElement).value;

@@ -10,7 +10,7 @@ export const roleBasedAuthGuard: CanActivateFn = (route, state) => {
 
   if (currentTime >= Number(exp)) {
     localStorage.clear();
-    router.navigate(['/session-expired']);
+    router.navigate(['/layout/session-expired']);
     return false;
   }
 

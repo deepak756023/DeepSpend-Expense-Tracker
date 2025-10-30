@@ -2,6 +2,7 @@ package com.example.expensetracker.controller;
 
 import com.example.expensetracker.entity.ResetPasswordRequest;
 import com.example.expensetracker.entity.User;
+import com.example.expensetracker.entity.UserInfo;
 import com.example.expensetracker.exception.custom_exception.NoSuchUserExistWithThisMailIdException;
 import com.example.expensetracker.exception.custom_exception.UserAlreadyExistsException;
 import com.example.expensetracker.repository.UserRepo;
@@ -145,6 +146,25 @@ public class UserController {
         oldUser.setProfession(user.getProfession());
 
         return userRepo.save(oldUser);
+    }
+
+    @GetMapping("/user/userinfo")
+    public UserInfo getUserDetails(@RequestParam Long userId){
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(user.getId());
+        userInfo.setUsername(user.getUsername());
+        userInfo.setRole(user.getRole().toString());
+        userInfo.setFirstName(user.getFirstName());
+        userInfo.setLastName(user.getLastName());
+        userInfo.setProfession(user.getProfession());
+        userInfo.setPhone(user.getPhone());
+        userInfo.setZipCode(user.getZipCode());
+
+        return userInfo;
+
     }
 
 }

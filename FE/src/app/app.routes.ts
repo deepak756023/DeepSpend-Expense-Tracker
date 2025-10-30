@@ -13,6 +13,7 @@ import { UnauthorizedComponent } from './modules/landing-page/unauthorized/unaut
 import { SessionExpiredComponent } from './modules/landing-page/session-expired/session-expired.component';
 import { ProfileComponent } from './modules/landing-page/profile/profile.component';
 import { LayoutComponent } from './modules/landing-page/Layout/layout/layout.component';
+import { userDataResolver } from './resolver/user-data.resolver';
 
 export const routes: Routes = [
     {
@@ -36,6 +37,7 @@ export const routes: Routes = [
             {
                 path: 'user-mgmt',
                 component: UserManagementComponent,
+                resolve: { users: userDataResolver },
                 canActivate: [roleBasedAuthGuard],
                 data: { role: 'ADMIN' }
             },

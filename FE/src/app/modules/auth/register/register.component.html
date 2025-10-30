@@ -43,6 +43,14 @@
                                             [ngClass]="{
                                     'border-danger': useForm.controls['firstName'].touched && useForm.controls['firstName'].invalid
                                   }" />
+                                        @if (useForm.controls['firstName'].touched) {
+
+                                        <div class="text-danger">
+                                            @if(useForm.controls['firstName'].errors?.['required']){
+                                            <Span> First Name is required</Span>
+                                            }
+                                        </div>
+                                        }
                                     </div>
 
                                     <div class="flex-grow-1 mx-2">
@@ -53,7 +61,7 @@
                                     </div>
                                 </div>
 
-                                <div class="m-2 my-3 mb-4">
+                                <div class="m-2 my-2 mb-4">
                                     <label for="username" class="form-label fw-semibold">
                                         Your Email<span class="required">*</span>
                                     </label>
@@ -65,7 +73,10 @@
 
                                     @if (useForm.controls['username'].touched) {
                                     <div class="text-danger">
-                                        @if(useForm.controls['username'].errors?.['username']){
+                                        @if(useForm.controls['username'].errors?.['required']){
+                                        <Span> Mail is required</Span>
+                                        }
+                                        @if(useForm.controls['username'].errors?.['email']){
                                         <span>Invalid Email!!!</span>
                                         }
                                     </div>
@@ -82,6 +93,14 @@
                                             placeholder="Enter your phone number" [ngClass]="{
                                     'border-danger': useForm.controls['phone'].touched && useForm.controls['phone'].invalid
                                   }" />
+                                        @if (useForm.controls['phone'].touched) {
+
+                                        <div class="text-danger">
+                                            @if(useForm.controls['phone'].errors?.['required']){
+                                            <Span> Phone No. is required</Span>
+                                            }
+                                        </div>
+                                        }
                                     </div>
 
                                     <div class="flex-grow-1 mx-2">
@@ -107,7 +126,8 @@
                                             [ngClass]="{'border border-danger': useForm.controls['isAgreeTOS'].touched && useForm.controls['isAgreeTOS'].invalid}" />
                                         <label class="form-check-label" for="isAgreeTOS">
                                             I agree all statements in
-                                            <a href="#!" class="text-body"><u>Terms of service</u></a>
+                                            <a href="#!" class="text-body"><u>Terms of service</u></a><span
+                                                class="required">&#42;</span>
                                         </label>
                                     </div>
 

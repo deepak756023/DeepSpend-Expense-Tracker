@@ -1,4 +1,4 @@
-<div class="container-fluid" style="padding-bottom: 200px;">
+<div class="container-fluid" style="padding-bottom: 50px;">
     <div class="row">
 
 
@@ -25,7 +25,7 @@
                 <p-table #dt [value]="expenses" [rows]="10" [columns]="cols" [paginator]="true" [scrollable]="true"
                     [(selection)]="selectedExpenses" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10, 25, 50]"
                     scrollHeight="90vh" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                    [showCurrentPageReport]="true" [filterDelay]="0">
+                    [showCurrentPageReport]="true" [filterDelay]="0" sortMode="multiple">
 
 
 
@@ -115,8 +115,12 @@
         <!-- Right Section (Form) -->
         <div class="col-md-3 mt-2">
 
+
             <form [formGroup]="useForm" (ngSubmit)="onSubmit()" class="form-section card p-3 card-border"
                 style="background-color:#f8f9fa;">
+                <button *ngIf="isEditMode" class="btn btn-primary w-50" (click)="onClear()">
+                    <i class="pi pi-plus mx-3 my-1"></i> Add Expense
+                </button>
 
 
                 <h5 class="mb-3" style="text-align: center; margin-top: 30px;">
@@ -128,6 +132,7 @@
                     <label for="sel2" class="form-label">Select Category:</label>
                     <select class="form-select" id="sel2" formControlName="category"
                         (change)="onCategoryChange($event)">
+
                         <option value="" disabled selected>Choose a category</option>
                         <option *ngFor="let category of allCategories" [value]="category">
                             {{ category }}
@@ -145,7 +150,7 @@
                 <div *ngIf="isAddNewCategory" class="mb-3">
                     <label class="form-label">New Category:</label>
                     <input type="text" class="form-control" placeholder="Enter new category"
-                        formControlName="newCategory" (input)="checkDuplicateCategory()" />
+                        formControlName="newCategory" (input)="checkDuplicateCategoryOrOthers()" />
 
                     <!-- Validation errors -->
                     <div *ngIf="useForm.get('newCategory')?.touched && useForm.get('newCategory')?.invalid"
@@ -162,6 +167,9 @@
                     <div *ngIf="isDuplicateCategory" class="text-danger small">
                         This category already exists!
                     </div>
+                    <div *ngIf="isNewCategoryIsOthers" class="text-danger small">
+                        Category cannot be OTHERS.
+                    </div>
                 </div>
 
 
@@ -173,32 +181,42 @@
                     <label class="form-label">Amount:</label>
                     <div class="input-group">
                         <span class="input-group-text">₹</span>
-                        <input type="number" class="form-control" placeholder="Enter amount" formControlName="amount">
-                    </div>
-                    <div *ngIf="useForm.get('amount')?.touched && useForm.get('amount')?.invalid"
-                        class="text-danger small">
-                        <div *ngIf="useForm.get('amount')?.errors?.['required']">
-                            Amount is required
-                        </div>
-                        <div *ngIf="useForm.get('amount')?.errors?.['min']">
-                            Amount must be greater than 0
-                        </div>
-                        <div *ngIf="useForm.get('amount')?.errors?.['max']">
-                            Amount must be lesser than 100000000
-                        </div>
+                        <input type="text" class="form-control" placeholder="Enter amount" formControlName="amount"
+                            maxlength="9" pattern="[0-9]*" inputmode="numeric"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9)" />
                     </div>
 
+                    <div *ngIf="useForm.get('amount')?.touched && useForm.get('amount')?.invalid"
+                        class="text-danger small">
+                        <div *ngIf="useForm.get('amount')?.errors?.['required']">Amount is required</div>
+                        <div *ngIf="useForm.get('amount')?.errors?.['min']">Amount must be greater than 0</div>
+                        <div *ngIf="useForm.get('amount')?.errors?.['max']">Amount must be lesser than 1000000000</div>
+                    </div>
                 </div>
+
 
                 <!-- Date Picker -->
                 <div class="mb-3">
                     <label class="form-label">Date:</label>
-                    <input type="date" class="form-control" formControlName="expenseDate">
-                    <div *ngIf="useForm.get('expenseDate')?.invalid && useForm.get('expenseDate')?.touched"
-                        class="text-danger small">
+                    <input type="date" class="form-control" formControlName="expenseDate" [max]="todayString" />
+
+                    <div *ngIf="
+                      useForm.get('expenseDate')?.hasError('required') &&
+                      useForm.get('expenseDate')?.touched
+                    " class="text-danger small">
                         Date is required
                     </div>
+
+                    <div *ngIf="
+                      useForm.get('expenseDate')?.touched &&
+                      useForm.get('expenseDate')?.value &&
+                      useForm.get('expenseDate')?.value > todayString
+                    " class="text-danger small">
+                        Expenses of future cannot be added today
+                    </div>
                 </div>
+
+
 
                 <!-- Description -->
                 <div class="mb-3">
