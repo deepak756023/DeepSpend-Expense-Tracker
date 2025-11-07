@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../user-management/user-management.component';
 import { Observable } from 'rxjs';
+import { UserInfo } from '../../landing-page/Layout/layout/layout.component';
 
 @Injectable({
   providedIn: 'root',
@@ -35,5 +36,10 @@ export class UserMngmntService {
       body: users,
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     });
+  }
+
+  userInfo(userId: number): Observable<UserInfo> {
+    const userInfoApi = `${this.baseUrl}/user/userinfo/${userId}`;
+    return this.http.get<UserInfo>(userInfoApi);
   }
 }

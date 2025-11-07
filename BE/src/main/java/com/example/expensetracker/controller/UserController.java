@@ -148,8 +148,8 @@ public class UserController {
         return userRepo.save(oldUser);
     }
 
-    @GetMapping("/user/userinfo")
-    public UserInfo getUserDetails(@RequestParam Long userId){
+    @GetMapping("/user/userinfo/{userId}")
+    public UserInfo getUserDetails(@PathVariable Long userId){
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
 
