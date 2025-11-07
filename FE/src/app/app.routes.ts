@@ -14,6 +14,7 @@ import { SessionExpiredComponent } from './modules/landing-page/session-expired/
 import { ProfileComponent } from './modules/landing-page/profile/profile.component';
 import { LayoutComponent } from './modules/landing-page/Layout/layout/layout.component';
 import { userDataResolver } from './resolver/user-data.resolver';
+import { userInfoResolver } from './resolver/user-info.resolver';
 
 export const routes: Routes = [
     {
@@ -24,6 +25,7 @@ export const routes: Routes = [
     {
         path: 'layout',
         component: LayoutComponent,
+        resolve: { userInfo: userInfoResolver },
         children: [
             {
                 path: '',

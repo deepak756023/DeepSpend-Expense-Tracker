@@ -62,6 +62,11 @@ export class UserManagementComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const userRole = localStorage.getItem('user_role');
+    if (userRole !== 'ADMIN') {
+      this.router.navigate(['/layout/home']);
+    }
+
     this.users = (this.route.snapshot.data['users'] || []).map((u: any) => ({
       ...u,
       createdAt: u.createdAt ? new Date(u.createdAt) : undefined
@@ -78,6 +83,9 @@ export class UserManagementComponent implements OnInit {
     ];
 
     this.exportColumns = this.cols.map(col => ({ title: col.header, dataKey: col.field }));
+
+
+
   }
 
 
